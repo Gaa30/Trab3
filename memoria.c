@@ -5,7 +5,6 @@
 #include "memoria.h"
 #define TAM_PALAVRA 4
 
-
 Memoria m;
 
 void inicia(int size){
@@ -14,7 +13,6 @@ void inicia(int size){
 
     for(int i=0; i<size; i = i+TAM_PALAVRA)
         m.vet[i] = -1;
-
 }
 
 int write(Palavra p, int endereco){
@@ -31,7 +29,6 @@ Palavra read(int endereco){
     Palavra * ptr = malloc(sizeof(Palavra));
     ptr = (Palavra *) (m.vet + endereco);
     return *ptr;
-
 }
 
 void print(){
@@ -53,4 +50,4 @@ int main(int argc, char *argv[]){
     return 0;
 
 
-}
+}   

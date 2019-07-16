@@ -6,6 +6,7 @@
 //#define DATA_AMOUNT 400
 
 //#define FLAG_EXIT  17
+#define FLAG_VAZIO -1
 #define FLAG_READY -3
 #define FLAG_BUSY  -2
 #define DISPONIVEL -4

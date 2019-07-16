@@ -3,7 +3,7 @@
 
 //#include "util.h"
 #include "memoria.h"
-//#include "registradores.h"
+#include "banco_registradores.h"
 //#include "estacoesReserva.h"
 //#include "DQueue.h"
 
@@ -13,5 +13,7 @@ void start();
 void next();
 void print();
 
+void estagio_busca_pipeline();
+void estagio_execucao_pipeline();
 
 #endif
