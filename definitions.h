@@ -8,7 +8,7 @@
 //#define FLAG_EXIT  17
 #define FLAG_READY -3
 #define FLAG_BUSY  -2
-
+#define DISPONIVEL -4
 
 #define REG_PG 28 /*GP*/
 #define REG_PS 29 /*SP*/
