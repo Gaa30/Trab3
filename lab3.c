@@ -37,7 +37,7 @@ int sp = 29;
 int fp = 30;
 int ra = 31;
 
-void bintohex(char *bin, char *hex) {
+/*void bintohex(char *bin, char *hex) {
     int i = 0, j = 0;
     char aux[4];
     for(i=0;i<32;i+=4){
@@ -94,6 +94,7 @@ void bintohex(char *bin, char *hex) {
         }
     }
 }
+*/
 
 void itobin(char op[], char *binario, int sizeOp){
     int a;

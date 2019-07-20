@@ -8,7 +8,7 @@ void estagio_busca_pipeline(){
 //decodificacao do codigo da instrucao no IR, e coloca na fila
 void decodificacao(){
     if(IR.valor == FLAG_VAZIO) return;
-    int instr
+    int instr;
 }
 
 void estagio_execucao_pipeline(){
