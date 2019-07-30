@@ -42,9 +42,15 @@ void read_operands(int unidadefuncional){
 }
 
 void execute(){
-    
+    // Execute whatever FU must do
 }
 
 void write_back(){
-
+    /* wait until (∀f {(Fj[f]≠Fi[FU] OR Rj[f]=No) AND (Fk[f]≠Fi[FU] OR Rk[f]=No)})
+    foreach f do
+        if Qj[f]=FU then Rj[f] ← Yes;
+        if Qk[f]=FU then Rk[f] ← Yes;
+    Result[Fi[FU]] ← 0; // 0 means no FU generates the register's result
+    RegFile[Fi[FU]] ← computed value;
+    Busy[FU] ← No; */
 }
