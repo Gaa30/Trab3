@@ -1,5 +1,4 @@
 #include "processador.h"
-#include "ula.h"
 
 void estagio_busca_pipeline(){
     IR.valor = read(PC.valor);    

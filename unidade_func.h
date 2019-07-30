@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "definitions.h" 
+#include "banco_registradores.h"
+
 typedef struct unidade_func{
     int busy;
     int operacao;

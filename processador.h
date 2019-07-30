@@ -6,6 +6,7 @@
 #include "banco_registradores.h"
 //#include "estacoesReserva.h"
 //#include "DQueue.h"
+#include "ula.h"
 
 //Barramento CDB;
 

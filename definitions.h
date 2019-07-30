@@ -3,6 +3,7 @@
 
 #define TAM_PALAVRA 4
 #define START_ADDRESS_DATA 0x4000000
+#define TAM_UNIDADE_FUNC 6
 //#define DATA_AMOUNT 400
 
 //#define FLAG_EXIT  17
