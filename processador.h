@@ -1,12 +1,15 @@
 #ifndef PROCESSADOR_H
 #define PROCESSADOR_H
 
-//#include "util.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "util.h"
 #include "memoria.h"
 #include "banco_registradores.h"
 //#include "estacoesReserva.h"
 //#include "DQueue.h"
 #include "ula.h"
+#include "definitions.h"
 
 //Barramento CDB;
 
