@@ -4,9 +4,11 @@
 #include "unidade_func.h"
 
 typedef struct{
+    int opcode;
     int type;
-    void* instrucao;
+    int instrucao;
     int valida;
+    int unidade_func;
 }barramento;
 
 barramento* init_barramento();

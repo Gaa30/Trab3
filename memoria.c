@@ -38,7 +38,7 @@ void print(){
 
 }
 
-int main(int argc, char *argv[]){
+/* int main(int argc, char *argv[]){
     FILE *arq;
     char *rola = "1A2";
     char *pau = "aaa";
@@ -50,4 +50,4 @@ int main(int argc, char *argv[]){
     return 0;
 
 
-}   
+}   */

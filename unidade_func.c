@@ -32,7 +32,32 @@ unidade_func* init_unidade_func(){
     return unidades_funcionais;
 }
 
+int getUF(int opcode){
+    if (opcode == ADD || opcode == ADDI || opcode == SUB)
+        return 3;
+    else if (opcode == MUL || opcode == MULT) //tem mais ainda
+        return 1;
+    else if (opcode == DIV)
+        return 2;
+    else
+    {
+        return 4;
+    }
+}
+
 int issue(){
+    int unidadefuncional = getUF(BUS[0].opcode);
+    if(unidadefuncional == 1){
+        if(unidades_funcionais[0].busy == FLAG_BUSY && unidades_funcionais[1].busy == FLAG_READY)
+            unidadefuncional == 1;
+        else if(unidades_funcionais[1].busy == FLAG_BUSY && unidades_funcionais[0].busy == FLAG_READY)
+            unidadefuncional == 0;
+        else if(unidades_funcionais[0].busy == FLAG_READY && unidades_funcionais[1].busy == FLAG_READY)
+            unidadefuncional == 0;
+        else{
+            unidadefuncional == 1;
+        }
+    }
     if(unidades_funcionais[unidadefuncional].busy != FLAG_BUSY && unidades_funcionais[unidadefuncional].Res == FLAG_VAZIO && unidades_funcionais[unidadefuncional].Res11 == FLAG_VAZIO){
         unidades_funcionais[unidadefuncional].busy = FLAG_BUSY;
         unidades_funcionais[unidadefuncional].operacao = op;
@@ -48,6 +73,7 @@ int issue(){
 }
 
 void read_operands(){
+    int unidadefuncional = BUS[1].unidade_func;
     if(unidades_funcionais[unidadefuncional].ready[0] == FLAG_READY && unidades_funcionais[unidadefuncional].ready[1] == FLAG_READY){
         unidades_funcionais[unidadefuncional].ready[0] = FLAG_BUSY;
         unidades_funcionais[unidadefuncional].ready[1] = FLAG_BUSY;
