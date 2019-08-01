@@ -20,6 +20,15 @@
 
 #define SPECIAL 000000
 #define SPECIAL2 011100
+#define DEFAULT 111111
+
+#define QTD_BARRAMENTOS 4
+#define TRUE 1000
+
+#define ISSUE 0
+#define READ 1
+#define EXECUTE 2
+#define WRITEBACK 3
 
 #define TYPE_R -6
 #define TYPE_I -7

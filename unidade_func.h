@@ -1,7 +1,11 @@
+#ifndef UNIDADE_FUNC_H
+#define UNIDADE_FUNC_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "definitions.h" 
 #include "banco_registradores.h"
+#include "barramento.h"
 
 typedef struct unidade_func{
     int busy;
@@ -18,9 +22,14 @@ typedef struct unidade_func{
     int cycle_counter;
 }unidade_func;
 
+void next();
+
+unidade_func* unidades_funcionais;
+
 unidade_func* init_unidade_func();
 int issue();
 void read_operands();
 void execute();
 void write_back();
 
+#endif 

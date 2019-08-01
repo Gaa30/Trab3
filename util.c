@@ -95,3 +95,16 @@ int getTipoInst(int opcode){
         break;
     }
 }
+
+int getSPECIAL(int instr){
+    int isSpecial = instr >> 26 &0xB; 
+    if (isSpecial = SPECIAL){
+        return SPECIAL;
+    }
+    else if(isSpecial = SPECIAL2){
+        return SPECIAL2;
+    }
+    else{
+        return DEFAULT;
+    }
+}

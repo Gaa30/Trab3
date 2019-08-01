@@ -10,9 +10,9 @@ void estagio_busca_pipeline(){
 void decodificacao(){
     if(IR.valor == FLAG_VAZIO) return;
     int instr = IR.valor;
+    int opcode = instr &111111;
     int special = getSPECIAL(instr);
-    int opcode = instr >> 26; //opcode = opcode &63
-    int type = getTipoInst(opcode)
+    int type = getTipoInst(opcode);
 }
 
 void estagio_execucao_pipeline(){
