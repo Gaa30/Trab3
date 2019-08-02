@@ -60,10 +60,12 @@ int issue(){
     }
     if(unidades_funcionais[unidadefuncional].busy != FLAG_BUSY && unidades_funcionais[unidadefuncional].Res == FLAG_VAZIO && unidades_funcionais[unidadefuncional].Res11 == FLAG_VAZIO){
         unidades_funcionais[unidadefuncional].busy = FLAG_BUSY;
-        unidades_funcionais[unidadefuncional].operacao = op;
-        unidades_funcionais[unidadefuncional].dest_register = dst;
-        unidades_funcionais[unidadefuncional].source_register[0] = src1;
-        unidades_funcionais[unidadefuncional].source_register[1] = src2;
+        unidades_funcionais[unidadefuncional].operacao = BUS[0].opcode;
+        int dst,src1,src2 = BUS[0].instrucao;
+        unidades_funcionais[unidadefuncional].dest_register = dst >> 11 &11111;
+        unidades_funcionais[unidadefuncional].source_register[0] = src1 >> 16 &11111;
+        unidades_funcionais[unidadefuncional].source_register[1] = src2 >> 21 &11111;
+        
         /*Qj[FU] ← Result[src1];
         Qk[FU] ← Result[src2];
         Rj[FU] ← Qj[FU] == 0;

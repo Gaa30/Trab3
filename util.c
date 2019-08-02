@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "util.h"
 
+//falta verificar quando for regim, special ou default
 int getTipoInst(int opcode){
     switch (opcode){
         case ADD:
