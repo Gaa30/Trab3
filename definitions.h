@@ -20,6 +20,7 @@
 
 #define SPECIAL 000000
 #define SPECIAL2 011100
+#define REGIMM 000001
 #define DEFAULT 111111
 
 #define QTD_BARRAMENTOS 4
@@ -44,7 +45,7 @@
 #define BGEZ 000001
 #define BGTZ 000111
 #define BLEZ 000110
-#define BLTZ 000001 //00000
+#define BLTZ 00000 //00000
 #define BNE 000101
 #define DIV 011010
 #define J 000010

@@ -20,7 +20,7 @@ unidade_func* init_unidade_func(){
         unidades_funcionais[i].dest_register = FLAG_VAZIO;
         for (int j = 0; j<2; j++){
             unidades_funcionais[i].source_register[j] = FLAG_VAZIO;
-            unidades_funcionais[i].queue[j] = FLAG_VAZIO;
+            unidades_funcionais[i].q[j] = FLAG_VAZIO;
             unidades_funcionais[i].ready[j] = FLAG_VAZIO;
         }
         unidades_funcionais[i].instr_type = FLAG_VAZIO;
@@ -47,6 +47,7 @@ int getUF(int opcode){
 
 int issue(){
     int unidadefuncional = getUF(BUS[0].opcode);
+    BUS[0].unidade_func = unidadefuncional;
     if(unidadefuncional == 1){
         if(unidades_funcionais[0].busy == FLAG_BUSY && unidades_funcionais[1].busy == FLAG_READY)
             unidadefuncional == 1;
@@ -65,12 +66,10 @@ int issue(){
         unidades_funcionais[unidadefuncional].dest_register = dst >> 11 &11111;
         unidades_funcionais[unidadefuncional].source_register[0] = src1 >> 16 &11111;
         unidades_funcionais[unidadefuncional].source_register[1] = src2 >> 21 &11111;
-        
-        /*Qj[FU] ← Result[src1];
-        Qk[FU] ← Result[src2];
-        Rj[FU] ← Qj[FU] == 0;
-        Rk[FU] ← Qk[FU] == 0;*/
-
+        unidades_funcionais[unidadefuncional].q[0] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[0]);
+        unidades_funcionais[unidadefuncional].q[1] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[1]);                unidades_funcionais[unidadefuncional].q[1] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[1]);
+        unidades_funcionais[unidadefuncional].ready[0] = unidades_funcionais[unidadefuncional].q[0];
+        unidades_funcionais[unidadefuncional].ready[1] = unidades_funcionais[unidadefuncional].q[1];
     }
 }
 

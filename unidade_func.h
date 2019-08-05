@@ -12,7 +12,7 @@ typedef struct unidade_func{
     int operacao;
     int dest_register;
     int source_register[2];
-    int queue[2];
+    int q[2];
     int ready[2];
     int instr_type;
     void* instr;

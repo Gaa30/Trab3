@@ -5,7 +5,7 @@ void inicializar_registradores(){
     int i;
     for(i=0; i < sizeof(banco_registradores); i++){
         banco_registradores[i].valor = 0;
-        banco_registradores[i].Qi = DISPONIVEL;
+        banco_registradores[i].Qi = FLAG_READY;
     }
 }
 
