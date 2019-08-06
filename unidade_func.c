@@ -97,14 +97,22 @@ void read_operands(){
 }
 
 void execute(){
-    switch (TAM_UNIDADE_FUNC){
+    switch (BUS[2].unidade_func){
         case 0:
-            //MUL e MULT
-            banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
+            //MUL E MULT
+            if(unidades_funcionais[0].instr == MUL){
+                banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
+            }else{
+
+            }
         break;
         case 1:
             //MUL E MULT
-            banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
+            if(unidades_funcionais[1].instr == MUL){
+                banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
+            }else{
+                
+            }
         break;
         case 2:
             //DIV
@@ -117,7 +125,8 @@ void execute(){
         case 4:
             //B, J, BEQ, BEQL, BGEZ, BGTZ, BLEZ, BLTZ, BNE, SUB, MSUB, MFHI, MFLO, MOVN, MOVZ, MTHI, MTLO
             //(verificar o instruction type)
-            
+        case -1:
+        break; 
     }
 }
 
