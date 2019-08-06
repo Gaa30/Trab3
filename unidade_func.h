@@ -15,11 +15,12 @@ typedef struct unidade_func{
     int q[2];
     int ready[2];
     int instr_type;
-    void* instr;
+    int instr;
     int instr_valida;
     int Res;
     int Res11;
     int cycle_counter;
+    int cycles_needed;
 }unidade_func;
 
 void next();

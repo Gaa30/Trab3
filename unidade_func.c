@@ -6,10 +6,12 @@
 //a unidade funcional 3 é de add e
 //a unidade funcional 4 é de int
 
-void next(int type, void* instrucao, int pos){
-    BUS[pos].type = type;
-    BUS[pos].instrucao = instrucao;
-    BUS[pos].valida = TRUE;
+void next(int pos){
+    BUS[pos].type = BUS[pos - 1].type;
+    BUS[pos].instrucao = BUS[pos - 1].instrucao;
+    BUS[pos].valida = BUS[pos - 1].valida;
+    BUS[pos].opcode = BUS[pos - 1].opcode;
+    BUS[pos].unidade_func = BUS[pos - 1].unidade_func;
 }
 
 unidade_func* init_unidade_func(){
@@ -18,6 +20,15 @@ unidade_func* init_unidade_func(){
         unidades_funcionais[i].busy = FLAG_READY;
         unidades_funcionais[i].operacao = i;
         unidades_funcionais[i].dest_register = FLAG_VAZIO;
+        if (i < 2){
+            unidades_funcionais[i].cycles_needed = 10;
+        }else if(i == 2){
+            unidades_funcionais[i].cycles_needed = 20;
+        }else if(i == 3){
+            unidades_funcionais[i].cycles_needed = 2;
+        }else{
+            unidades_funcionais[i].cycles_needed = 2;
+        }
         for (int j = 0; j<2; j++){
             unidades_funcionais[i].source_register[j] = FLAG_VAZIO;
             unidades_funcionais[i].q[j] = FLAG_VAZIO;
@@ -63,6 +74,8 @@ int issue(){
         unidades_funcionais[unidadefuncional].busy = FLAG_BUSY;
         unidades_funcionais[unidadefuncional].operacao = BUS[0].opcode;
         int dst,src1,src2 = BUS[0].instrucao;
+        unidades_funcionais[unidadefuncional].instr = BUS[0].instrucao;
+        unidades_funcionais[unidadefuncional].instr_type = BUS[0].type;
         unidades_funcionais[unidadefuncional].dest_register = dst >> 11 &11111;
         unidades_funcionais[unidadefuncional].source_register[0] = src1 >> 16 &11111;
         unidades_funcionais[unidadefuncional].source_register[1] = src2 >> 21 &11111;
@@ -71,6 +84,7 @@ int issue(){
         unidades_funcionais[unidadefuncional].ready[0] = unidades_funcionais[unidadefuncional].q[0];
         unidades_funcionais[unidadefuncional].ready[1] = unidades_funcionais[unidadefuncional].q[1];
     }
+    next(1);
 }
 
 void read_operands(){
@@ -79,6 +93,7 @@ void read_operands(){
         unidades_funcionais[unidadefuncional].ready[0] = FLAG_BUSY;
         unidades_funcionais[unidadefuncional].ready[1] = FLAG_BUSY;
     }
+    next(2);
 }
 
 void execute(){

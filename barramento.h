@@ -14,3 +14,5 @@ typedef struct{
 barramento* init_barramento();
 
 barramento* BUS;
+
+void add_info_barramento(int opcode, int type, int instrucao, int valida, int unidade_func)

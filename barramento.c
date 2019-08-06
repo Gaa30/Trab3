@@ -12,3 +12,11 @@ barramento* init_barramento(){
     }
     return BUS;
 }
+
+void add_info_barramento(int opcode, int type, int instrucao, int valida, int unidade_func){
+        BUS[0].opcode = opcode;
+        BUS[0].instrucao = instrucao;
+        BUS[0].type = type;
+        BUS[0].valida = valida;
+        BUS[0].unidade_func = FLAG_VAZIO; 
+}

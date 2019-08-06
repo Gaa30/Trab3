@@ -1,5 +1,7 @@
 #include "processador.h"
 #include "util.h"
+#include "unidade_func.h"
+#include "barramento.h"
 
 void estagio_busca_pipeline(){
     IR.valor = read(PC.valor);    
@@ -263,9 +265,10 @@ void decodificacao(){
                 break;
             }
         break;
+        add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO);
     }
 }
 
 void estagio_execucao_pipeline(){
-        
+    
 }
