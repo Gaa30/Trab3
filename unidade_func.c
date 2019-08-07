@@ -76,9 +76,9 @@ int issue(){
         int dst,src1,src2 = BUS[0].instrucao;
         unidades_funcionais[unidadefuncional].instr = BUS[0].instrucao;
         unidades_funcionais[unidadefuncional].instr_type = BUS[0].type;
-        unidades_funcionais[unidadefuncional].dest_register = dst >> 11 &11111;
-        unidades_funcionais[unidadefuncional].source_register[0] = src1 >> 16 &11111;
-        unidades_funcionais[unidadefuncional].source_register[1] = src2 >> 21 &11111;
+        unidades_funcionais[unidadefuncional].dest_register = BUS[0].rd;
+        unidades_funcionais[unidadefuncional].source_register[0] = BUS[0].rt;
+        unidades_funcionais[unidadefuncional].source_register[1] = BUS[0].rs;
         unidades_funcionais[unidadefuncional].q[0] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[0]);
         unidades_funcionais[unidadefuncional].q[1] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[1]);                unidades_funcionais[unidadefuncional].q[1] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[1]);
         unidades_funcionais[unidadefuncional].ready[0] = unidades_funcionais[unidadefuncional].q[0];
@@ -102,21 +102,23 @@ void execute(){
             //MUL E MULT
             if(unidades_funcionais[0].instr == MUL){
                 banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
-            }else{
-
+            }else{//falta checar overflow
+                banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
             }
         break;
         case 1:
             //MUL E MULT
             if(unidades_funcionais[1].instr == MUL){
                 banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
-            }else{
-                
+            }else{//falta checar overflow
+                banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
+
             }
         break;
         case 2:
             //DIV
             banco_registradores[unidades_funcionais[2].dest_register].valor = ula_div(unidades_funcionais[2].source_register[1],unidades_funcionais[2].source_register[0]);
+            banco_registradores[REG_HI].valor = ula_mod(unidades_funcionais[2].source_register[1],unidades_funcionais[2].source_register[0]);
         break;
         case 3:
             //ADD, ADDI, MADD (verificar o instruction type)

@@ -123,9 +123,9 @@ void decodificacao(){
                 case DIV:
                     instrucao->type = SPECIAL;
                     instrucao->operation = DIV;
-                    instrucao->rd = rd >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rd = REG_LO;
+                    instrucao->rs = rs >> 16 &11111;
+                    instrucao->rt = rt >> 21 &11111;
                 break;
                 case JR:
                     instrucao->type = SPECIAL;
@@ -179,9 +179,9 @@ void decodificacao(){
                 case MULT:
                     instrucao->type = SPECIAL;
                     instrucao->operation = MULT;
-                    instrucao->rd = ;
+                    instrucao->rd = REG_LO;
                     instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = ;
+                    instrucao->rt = rt >> 16 &11111;
                 break;
                 case NOP:
                     instrucao->type = SPECIAL;
@@ -265,7 +265,7 @@ void decodificacao(){
                 break;
             }
         break;
-        add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO);
+        add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO, instrucao->rs, instrucao->rt, instrucao->rd);
     }
 }
 
