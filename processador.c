@@ -226,9 +226,9 @@ void decodificacao(){
                 case MADD:
                     instrucao->type = SPECIAL2;
                     instrucao->operation = MADD;
-                    instrucao->rd = rd >> 16 &11111;
+                    instrucao->rd = REG_LO;
                     instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rt = rt >> 16 &11111;
                 break;
                 case MSUB:
                     instrucao->type = SPECIAL2;

@@ -103,7 +103,10 @@ void execute(){
             if(unidades_funcionais[0].instr == MUL){
                 banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
             }else{//falta checar overflow
-                banco_registradores[unidades_funcionais[0].dest_register].valor = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
+                int resultado;
+                resultado = ula_mult(unidades_funcionais[0].source_register[0],unidades_funcionais[0].source_register[1]);
+                banco_registradores[unidades_funcionais[0].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
+                banco_registradores[REG_HI].valor = resultado >> 32;        
             }
         break;
         case 1:
@@ -111,8 +114,10 @@ void execute(){
             if(unidades_funcionais[1].instr == MUL){
                 banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
             }else{//falta checar overflow
-                banco_registradores[unidades_funcionais[1].dest_register].valor = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
-
+                int resultado;
+                resultado = ula_mult(unidades_funcionais[1].source_register[0],unidades_funcionais[1].source_register[1]);
+                banco_registradores[unidades_funcionais[1].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
+                banco_registradores[REG_HI].valor = resultado >> 32;  
             }
         break;
         case 2:
@@ -122,13 +127,21 @@ void execute(){
         break;
         case 3:
             //ADD, ADDI, MADD (verificar o instruction type)
-            banco_registradores[unidades_funcionais[3].dest_register].valor = ula_somador(unidades_funcionais[3].source_register[0], unidades_funcionais[3].source_register[1]);
+            if(unidades_funcionais[3].instr == ADD){
+                banco_registradores[unidades_funcionais[3].dest_register].valor = ula_somador(unidades_funcionais[3].source_register[0], unidades_funcionais[3].source_register[1]);
+            }else if (unidades_funcionais[3].instr == ADDI){
+                banco_registradores[unidades_funcionais[3].dest_register].valor = ula_somador(unidades_funcionais[3].source_register[0], unidades_funcionais[3].source_register[1]);
+            }else{
+                int resultado;
+                resultado = ula_mult(unidades_funcionais[3].source_register[0],unidades_funcionais[3].source_register[1]);
+                banco_registradores[unidades_funcionais[3].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
+                banco_registradores[REG_HI].valor = resultado >> 32;     
+            }
         break;
         case 4:
             //B, J, BEQ, BEQL, BGEZ, BGTZ, BLEZ, BLTZ, BNE, SUB, MSUB, MFHI, MFLO, MOVN, MOVZ, MTHI, MTLO
             //(verificar o instruction type)
-        case -1:
-        break; 
+        break;
     }
 }
 
