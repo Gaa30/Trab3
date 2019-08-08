@@ -25,6 +25,7 @@
 
 #define QTD_BARRAMENTOS 4
 #define TRUE 1000
+#define FALSE 1010
 
 #define ISSUE 0
 #define READ 1

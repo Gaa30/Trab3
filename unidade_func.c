@@ -139,8 +139,64 @@ void execute(){
             }
         break;
         case 4:
-            //B, J, BEQ, BEQL, BGEZ, BGTZ, BLEZ, BLTZ, BNE, SUB, MSUB, MFHI, MFLO, MOVN, MOVZ, MTHI, MTLO
-            //(verificar o instruction type)
+            switch(unidades_funcionais[4].instr_type){
+                case REGIMM:
+                    switch(unidades_funcionais[4].instr){
+                        case BGEZ:
+                        case BLTZ:
+                    }
+                break;
+                case SPECIAL:
+                    switch(unidades_funcionais[4].instr){
+                        case AND:
+                        case JR:
+                        case MFHI:
+                        case MFLO:
+                        case MOVN:
+                        case MOVZ:
+                        case MTHI:
+                        case MTLO:
+                        case MULT:
+                        case NOP:
+                        case NOR:
+                        case OR:
+                        case SUB:
+                        case XOR:
+
+                    } 
+                break;                   
+                case SPECIAL2:
+                    switch(unidades_funcionais[4].instr){
+                        case MSUB:
+                    } 
+                break;               
+                case DEFAULT:
+                    switch(unidades_funcionais[4].instr){
+                        case ANDI:
+                        case B || BEQ:
+                            if (unidades_funcionais[4].instr == BEQ){
+                                int verifica = ula_div(banco_registradores[unidades_funcionais[4].source_register[0]].valor, banco_registradores[unidades_funcionais[4].source_register[1]].valor);
+                                if(verifica == 1){
+                                    //faz case B || BEQ:a parte do pulo;
+                                }else{
+                                    unidades_funcionais[4].instr_valida = FALSE;
+                                }
+                            }else{
+                                //faz o branch incondicional
+                            }
+                        case BEQL:
+                        case BGTZ:
+                        case BLEZ:
+                        case BNE:
+                        case J:
+                        case LUI:
+                        case ORI:
+                        case XORI:
+                    } 
+                break;               
+            }
+                //B, J, BEQ, BEQL, BGEZ, BGTZ, BLEZ, BLTZ, BNE, SUB, MSUB, MFHI, MFLO, MOVN, MOVZ, MTHI, MTLO
+                //(verificar o instruction type)
         break;
     }
 }
