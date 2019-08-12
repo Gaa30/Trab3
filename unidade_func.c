@@ -149,16 +149,33 @@ void execute(){
                 case SPECIAL:
                     switch(unidades_funcionais[4].instr){
                         case AND:
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = ula_and(unidades_funcionais[4].source_register[0], unidades_funcionais[4].source_register[1]);
                         case JR:
+                           //
                         case MFHI:
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registrdores[REG_HI].valor;
                         case MFLO:
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[REG_LO].valor;
                         case MOVN:
+                            if(banco_registradores[unidades_funcionais[4].source_register[0]].valor != 0){
+                                banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor;
+                            } else{
+                                return 0;
+                            }
                         case MOVZ:
+                            if(banco_registradores[unidades_funcionais[4].source_register[0]].valor == 0){
+                                banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor;
+                            }
                         case MTHI:
+                            banco_registradores[REG_HI].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor; 
                         case MTLO:
+                            banco_registradores[REG_LO].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor;
                         case MULT:
+
                         case NOP:
+
                         case NOR:
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = ula_nor(unidades_funcionais[0].source_register[0], unidades_funcionais[1].source_register[1]);
                         case OR:
                         case SUB:
                         case XOR:
