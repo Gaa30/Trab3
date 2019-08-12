@@ -153,7 +153,7 @@ void execute(){
                         case JR:
                            //
                         case MFHI:
-                            banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registrdores[REG_HI].valor;
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[REG_HI].valor;
                         case MFLO:
                             banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[REG_LO].valor;
                         case MOVN:
@@ -170,8 +170,6 @@ void execute(){
                             banco_registradores[REG_HI].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor; 
                         case MTLO:
                             banco_registradores[REG_LO].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor;
-                        case MULT:
-
                         case NOP:
 
                         case NOR:
@@ -185,6 +183,8 @@ void execute(){
                 case SPECIAL2:
                     switch(unidades_funcionais[4].instr){
                         case MSUB:
+                            ula_subtrator(ula_or(banco_registradores[REG_HI], banco_registradores[REG_LO]), ula_mult(banco_registradores[unidades_funcionais[4].source_register[0]].valor, banco_registradores[unidades_funcionais[4].source_register[1]].valor));
+                        break;
                     } 
                 break;               
                 case DEFAULT:
