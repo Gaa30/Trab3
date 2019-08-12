@@ -173,25 +173,63 @@ void execute(){
                 case DEFAULT:
                     switch(unidades_funcionais[4].instr){
                         case ANDI:
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = ula_and(unidades_funcionais[4].source_register[0], unidades_funcionais[4].source_register[1]);
+                        break;
                         case B || BEQ:
                             if (unidades_funcionais[4].instr == BEQ){
                                 int verifica = ula_div(banco_registradores[unidades_funcionais[4].source_register[0]].valor, banco_registradores[unidades_funcionais[4].source_register[1]].valor);
                                 if(verifica == 1){
-                                    //faz case B || BEQ:a parte do pulo;
+                                    //faz a parte do pulo;
                                 }else{
                                     unidades_funcionais[4].instr_valida = FALSE;
                                 }
                             }else{
-                                //faz o branch incondicional
+                                unidades_funcionais[4].instr_valida = TRUE;
                             }
+                        break;
                         case BEQL:
+                            int verifica = ula_div(banco_registradores[unidades_funcionais[4].source_register[0]].valor, banco_registradores[unidades_funcionais[4].source_register[1]].valor);
+                            if(verifica == 1){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                         case BGTZ:
+                            if(banco_registradores[unidades_funcionais[4].source_register[1]].valor > 0){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                         case BLEZ:
+                            if(banco_registradores[unidades_funcionais[4].source_register[1]].valor <= 0){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                         case BNE:
+                            int verifica = ula_div(banco_registradores[unidades_funcionais[4].source_register[0]].valor, banco_registradores[unidades_funcionais[4].source_register[1]].valor);
+                            if(verifica != 1){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                         case J:
+                            //PC  PCGPRLEN-1..28 || instr_index || 02
+                        break;
                         case LUI:
+                            int low_order_zero = 00000000000000000000000000000000;
+                            banco_registradores[unidades_funcionais[4].dest_register].valor = low_order_zero;
+                        break;
                         case ORI:
+                            banco_registradores[unidades_funcionais[4].source_register[0]].valor = ula_or(banco_registradores[unidades_funcionais[4].source_register[1]].valor, unidades_funcionais[4].dest_register);
+                        break;
                         case XORI:
+                            banco_registradores[unidades_funcionais[4].source_register[0]].valor = ula_xor(banco_registradores[unidades_funcionais[4].source_register[1]].valor, unidades_funcionais[4].dest_register);
+                        break;
                     } 
                 break;               
             }
