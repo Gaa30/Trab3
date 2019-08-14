@@ -21,9 +21,9 @@ unidade_func* init_unidade_func(){
         unidades_funcionais[i].operacao = i;
         unidades_funcionais[i].dest_register = FLAG_VAZIO;
         if (i < 2){
-            unidades_funcionais[i].cycles_needed = 10;
+            unidades_funcionais[i].cycles_needed = 5;
         }else if(i == 2){
-            unidades_funcionais[i].cycles_needed = 20;
+            unidades_funcionais[i].cycles_needed = 5;
         }else if(i == 3){
             unidades_funcionais[i].cycles_needed = 2;
         }else{
@@ -143,7 +143,19 @@ void execute(){
                 case REGIMM:
                     switch(unidades_funcionais[4].instr){
                         case BGEZ:
+                            if(banco_registradores[unidades_funcionais[4].source_register[1]].valor >= 0){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                         case BLTZ:
+                            if(banco_registradores[unidades_funcionais[4].source_register[1]].valor < 0){
+                                //faz a parte do pulo;
+                            }else{
+                                unidades_funcionais[4].instr_valida = FALSE;
+                            }
+                        break;
                     }
                 break;
                 case SPECIAL:
@@ -155,10 +167,7 @@ void execute(){
                            //
                         case MFHI:
                             banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[REG_HI].valor;
-<<<<<<< HEAD
                         break;
-=======
->>>>>>> 92db7bbca3816e2fb1e37a775f4f49899f2a2b6a
                         case MFLO:
                             banco_registradores[unidades_funcionais[4].dest_register].valor = banco_registradores[REG_LO].valor;
                         break;
@@ -179,10 +188,7 @@ void execute(){
                         break;
                         case MTLO:
                             banco_registradores[REG_LO].valor = banco_registradores[unidades_funcionais[4].source_register[1]].valor;
-<<<<<<< HEAD
                         break;
-=======
->>>>>>> 92db7bbca3816e2fb1e37a775f4f49899f2a2b6a
                         case NOP:
                             
                         case NOR:
@@ -269,8 +275,6 @@ void execute(){
                     } 
                 break;               
             }
-                //B, J, BEQ, BEQL, BGEZ, BGTZ, BLEZ, BLTZ, BNE, SUB, MSUB, MFHI, MFLO, MOVN, MOVZ, MTHI, MTLO
-                //(verificar o instruction type)
         break;
     }
 }

@@ -5,7 +5,7 @@
 
 void estagio_busca_pipeline(){
     IR.valor = read(PC.valor);    
-    PC.valor += ula_somador(PC.valor, 4); //tem que fazer essa adição através da ULA, mas a ula nao ta pronta kkkj
+    PC.valor += ula_somador(PC.valor, 4);
 }
 
 //decodificacao do codigo da instrucao no IR, e coloca na fila
@@ -270,5 +270,7 @@ void decodificacao(){
 }
 
 void estagio_execucao_pipeline(){
-    
+    execute();
 }
+
+
