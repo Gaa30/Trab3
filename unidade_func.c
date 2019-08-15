@@ -43,21 +43,128 @@ unidade_func* init_unidade_func(){
     return unidades_funcionais;
 }
 
-int getUF(int opcode){
-    if (opcode == ADD || opcode == ADDI || opcode == SUB)
-        return 3;
-    else if (opcode == MUL || opcode == MULT) //tem mais ainda
-        return 1;
-    else if (opcode == DIV)
-        return 2;
-    else
-    {
-        return 4;
-    }
-}
-
 int issue(){
-    int unidadefuncional = getUF(BUS[0].opcode);
+    switch(BUS[0].type){
+        case DEFAULT:
+            switch(BUS[0].opcode){
+                case ADDI:
+
+                break;
+                case ANDI:
+
+                break;
+                case B || BEQ:
+                    int checkB1, checkB2 = instr;
+                    checkB1 = checkB1 >> 16 &11111;
+                    checkB2 = checkB2 >> 21 &11111;
+                    if(checkB1 == 00000 && checkB2 == 00000){
+
+                    }else{
+
+                    }
+                break;
+                case BEQL:
+
+                break;
+                case BGTZ:
+
+                break;
+                case BLEZ:
+
+                break;
+                case BNE:
+
+                break;
+                case J:
+
+                break;
+                case LUI:
+
+                break;
+                case ORI:
+
+                break;
+                case XORI:
+
+                break;
+            }
+        break;
+        case SPECIAL:
+            switch(BUS[0].opcode){
+                case ADD:
+
+                break;
+                case AND:
+
+                break;
+                case DIV:
+
+                break;
+                case JR:
+
+                break;
+                case MFHI:
+
+                break;
+                case MFLO:
+
+                break;
+                case MOVN:
+
+                break;
+                case MOVZ:
+
+                break;
+                case MTHI:
+
+                break;
+                case MTLO:
+
+                break;
+                case MULT:
+
+                break;
+                case NOP:
+
+                break;
+                case NOR:
+
+                break;
+                case OR:
+
+                break;
+                case SUB:
+
+                break;
+                case XOR:
+
+                break;
+            }
+        break;
+        case SPECIAL2:
+            switch(BUS[0].opcode){
+                case MADD:
+
+                break;
+                case MSUB:
+
+                break;
+                case MUL:
+
+                break;
+            }
+        break;
+        case REGIMM:
+            switch(BUS[0].opcode){
+                case BGEZ:
+
+                break;
+                case BLTZ:
+
+                break;
+            }
+        break;
+    }
     BUS[0].unidade_func = unidadefuncional;
     if(unidadefuncional == 1){
         if(unidades_funcionais[0].busy == FLAG_BUSY && unidades_funcionais[1].busy == FLAG_READY)
