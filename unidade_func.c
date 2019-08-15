@@ -37,19 +37,19 @@ unidade_func* init_unidade_func(){
     for (int i = 0; i<QUANT_UF_MUL; i++){
         unidades_funcionais[i].unidade_func_type = UF_MUL_CODE;
     }
-    for (i = INIT_POS_DIV; i< INIT_POS_ADD; i++){
+    for (int i = INIT_POS_DIV; i< INIT_POS_ADD; i++){
         unidades_funcionais[i].unidade_func_type = UF_DIV_CODE;
     }
-    for (i = INIT_POS_ADD; i < INIT_POS_INT; i++){
+    for (int i = INIT_POS_ADD; i < INIT_POS_INT; i++){
         unidades_funcionais[i].unidade_func_type = UF_ADD_CODE;
     }
-    for (i = INIT_POS_INT; i< TAM_UNIDADE_FUNC; i++){
+    for (int i = INIT_POS_INT; i< TAM_UNIDADE_FUNC; i++){
         unidades_funcionais[i].unidade_func_type = UF_INT_CODE;
     }
     return unidades_funcionais;
 }
 
-//ainda falta coisa na issue, mas tá com uma cara melhor;
+//ISSUE TA PRONTA
 int issue(){
     switch(BUS[0].type){
         case DEFAULT:
@@ -465,8 +465,8 @@ int issue(){
                         unidades_funcionais[i].dest_register = BUS[0].rd;
                         unidades_funcionais[i].q[0] = FLAG_READY;
                         unidades_funcionais[i].q[1] = FLAG_READY;
-                        unidades_funcionais[i].ready[0] = unidades_funcionais[unidadefuncional].q[0];
-                        unidades_funcionais[i].ready[1] = unidades_funcionais[unidadefuncional].q[1];
+                        unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
+                        unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                         unidades_funcionais[i].cycles_needed = 2;
                         BUS[0].unidade_func = i;
                         }
@@ -642,8 +642,8 @@ int issue(){
                         unidades_funcionais[i].instr_type = BUS[0].type;
                         unidades_funcionais[i].q[0] = FLAG_READY;
                         unidades_funcionais[i].q[1] = FLAG_READY;
-                        unidades_funcionais[i].ready[0] = unidades_funcionais[unidadefuncional].q[0];
-                        unidades_funcionais[i].ready[1] = unidades_funcionais[unidadefuncional].q[1];
+                        unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
+                        unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                         unidades_funcionais[i].cycles_needed = 1;
                         BUS[0].unidade_func = i;
                         }
@@ -881,9 +881,9 @@ int issue(){
                         unidades_funcionais[i].dest_register = BUS[0].rd;
                         unidades_funcionais[i].source_register[1] = BUS[0].rs;
                         unidades_funcionais[i].q[0] = FLAG_READY;
-                        unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[unidadefuncional].source_register[1]);
-                        unidades_funcionais[i].ready[0] = unidades_funcionais[unidadefuncional].q[0];
-                        unidades_funcionais[i].ready[1] = unidades_funcionais[unidadefuncional].q[1];
+                        unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
+                        unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
+                        unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                         unidades_funcionais[i].cycles_needed = 2;
                         BUS[0].unidade_func = i;                        
                         }
@@ -939,7 +939,7 @@ void execute(){
                     case UF_ADD_CODE:
                         //ADD, ADDI, MADD (verificar o instruction type)
                         if(unidades_funcionais[i].instr == ADD){
-                            banco_registradores[unidades_funcionais[i].dest_register].valor = ula_somador(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor;
+                            banco_registradores[unidades_funcionais[i].dest_register].valor = ula_somador(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                         }else if (unidades_funcionais[i].instr == ADDI){
                             banco_registradores[unidades_funcionais[i].dest_register].valor = ula_somador(unidades_funcionais[i].source_register[0], banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                         }else{

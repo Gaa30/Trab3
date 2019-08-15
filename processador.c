@@ -267,7 +267,7 @@ void decodificacao(){
                 case BLTZ:
                     instrucao->type = REGIMM;
                     instrucao->operation = BLTZ;
-                    instrucao->rd = rd >> 1111111111111111
+                    instrucao->rd = rd >> 1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
                 break;
