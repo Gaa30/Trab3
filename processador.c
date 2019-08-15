@@ -43,6 +43,8 @@ void decodificacao(){
                     if(checkB1 == 00000 && checkB2 == 00000){
                         instrucao->operation = B;
                         instrucao->rd = rd &1111111111111111;
+                        instrucao->rs = FLAG_VAZIO;
+                        instrucao->rt = FLAG_VAZIO;
                     }else{
                         instrucao->operation = BEQ;
                         instrucao->rd = rd &1111111111111111;
@@ -62,12 +64,14 @@ void decodificacao(){
                     instrucao->operation = BGTZ;
                     instrucao->rd = rd &1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = FLAG_VAZIO;
                 break;
                 case BLEZ:
                     instrucao->type = DEFAULT;
                     instrucao->operation = BLEZ;
                     instrucao->rd = rd &1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = FLAG_VAZIO;
                 break;
                 case BNE:
                     instrucao->type = DEFAULT;
@@ -80,12 +84,16 @@ void decodificacao(){
                     instrucao->type = DEFAULT;
                     instrucao->operation = J;
                     instrucao->rd = rd &11111111111111111111111111;
+                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rs = FLAG_VAZIO;
 
                 break;
                 case LUI:
                     instrucao->type = DEFAULT;
                     instrucao->operation = LUI;
                     instrucao->rd = rd >> 16 &11111;
+                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rs = FLAG_VAZIO;
                 break;
                 case ORI:
                     instrucao->type = DEFAULT;
@@ -165,14 +173,14 @@ void decodificacao(){
                 case MTHI:
                     instrucao->type = SPECIAL;
                     instrucao->operation = MTHI;
-                    instrucao->rd = FLAG_VAZIO;
+                    instrucao->rd = REG_HI;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
                 break;
                 case MTLO:
                     instrucao->type = SPECIAL;
                     instrucao->operation = MTLO;
-                    instrucao->rd = FLAG_VAZIO;
+                    instrucao->rd = REG_LO;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt =FLAG_VAZIO ;
                 break;
@@ -233,9 +241,9 @@ void decodificacao(){
                 case MSUB:
                     instrucao->type = SPECIAL2;
                     instrucao->operation = MSUB;
-                    instrucao->rd = rd >> 16 &11111;
+                    instrucao->rt = rt >> 16 &11111;
                     instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rd = REG_LO;
                 break;
                 case MUL:
                     instrucao->type = SPECIAL2;
@@ -252,14 +260,14 @@ void decodificacao(){
                 case BGEZ:
                     instrucao->type = REGIMM;
                     instrucao->operation = BGEZ;
-                    instrucao->rd = rd >> 15 &11111;
+                    instrucao->rd = rd >> 1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
                 break;
                 case BLTZ:
                     instrucao->type = REGIMM;
                     instrucao->operation = BLTZ;
-                    instrucao->rd = rd >> 15 &11111;
+                    instrucao->rd = rd >> 1111111111111111
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
                 break;

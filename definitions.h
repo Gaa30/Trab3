@@ -3,7 +3,17 @@
 
 #define TAM_PALAVRA 4
 #define START_ADDRESS_DATA 0x4000000
-#define TAM_UNIDADE_FUNC 5
+#define QUANT_UF_MUL 2
+#define QUANT_UF_DIV 1
+#define QUANT_UF_INT 1
+#define QUANT_UF_ADD 1
+
+#define UF_MUL_CODE 9990
+#define UF_DIV_CODE 9991
+#define UF_INT_CODE 9992
+#define UF_ADD_CODE 9993
+
+
 //#define DATA_AMOUNT 400
 
 //#define FLAG_EXIT  17
@@ -77,5 +87,12 @@ typedef struct instruction{
     int type;
     int operation;
 }instruction;
+
+int TAM_UNIDADE_FUNC = QUANT_UF_ADD + QUANT_UF_DIV + QUANT_UF_INT + QUANT_UF_MUL;
+int INIT_POS = 0;
+int INIT_POS_DIV = QUANT_UF_MUL;
+int INIT_POS_ADD = INIT_POS_DIV + QUANT_UF_DIV;
+int INIT_POS_INT = INIT_POS_ADD + QUANT_UF_ADD;
+
 
 #endif

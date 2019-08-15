@@ -21,6 +21,7 @@ typedef struct unidade_func{
     int Res11;
     int cycle_counter;
     int cycles_needed;
+    int unidade_func_type;
 }unidade_func;
 
 void next();
@@ -29,7 +30,7 @@ unidade_func* unidades_funcionais;
 
 unidade_func* init_unidade_func();
 int issue();
-void read_operands();
+int read_operands();
 void execute();
 void write_back();
 
