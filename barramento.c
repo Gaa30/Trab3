@@ -10,6 +10,11 @@ barramento* init_barramento(){
         BUS[i].valida = FLAG_READY;
         BUS[i].unidade_func = FLAG_VAZIO; 
         BUS[i].rs, BUS[i].rt, BUS[i].rd = FLAG_VAZIO;
+        if (i == 3){
+            for(int j = 0; j < TAM_UNIDADE_FUNC; j++){
+                BUS[i].lista_UF_prontas[j] = FLAG_VAZIO;
+            }
+        }
     }
     return BUS;
 }

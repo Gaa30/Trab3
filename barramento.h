@@ -10,6 +10,7 @@ typedef struct{
     int valida;
     int unidade_func;
     int rs,rt,rd;
+    int lista_UF_prontas[QUANT_UF_ADD + QUANT_UF_DIV + QUANT_UF_INT + QUANT_UF_MUL];
 }barramento;
 
 barramento* init_barramento();

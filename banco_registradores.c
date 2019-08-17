@@ -18,7 +18,15 @@ int reg_read(int registrador){
 }
 
 int reg_get_status(int registrador){
-    return banco_registradores[registrador].Qi;
+    if(banco_registradores[registrador].Qi == FLAG_READY){
+      return banco_registradores[registrador].Qi;
+    }else{
+      return FLAG_BUSY;
+    }
+}
+
+int reg_get_UF(int registrador){
+  return banco_registradores[registrador].Qi;
 }
 
 int reg_change_status(int registrador, int indice_ER){
