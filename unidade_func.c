@@ -473,7 +473,8 @@ int issue(){
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             unidades_funcionais[i].cycles_needed = 5;
-                            reg_change_status(unidades_funcionais[i].dest_register, i);    
+                            reg_change_status(unidades_funcionais[i].dest_register, i);   
+                            reg_change_status(REG_HI, i); 
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
@@ -704,6 +705,7 @@ int issue(){
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             unidades_funcionais[i].cycles_needed = 5;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
+                            reg_change_status(REG_HI, i);
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
@@ -883,6 +885,7 @@ int issue(){
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             unidades_funcionais[i].cycles_needed = 2;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
+                            reg_change_status(REG_HI, i);
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
@@ -912,7 +915,8 @@ int issue(){
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             unidades_funcionais[i].cycles_needed = 2;
-                            reg_change_status(unidades_funcionais[i].dest_register, i);    
+                            reg_change_status(unidades_funcionais[i].dest_register, i);  
+                            reg_change_status(REG_HI, i);  
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
@@ -1014,8 +1018,9 @@ int issue(){
             }
         break;
     }
-    EMITIDA = TRUE;
-    next(1);
+    if(EMITIDA == TRUE){
+        next(1);
+    }
 }
 
 int read_operands(){
@@ -1036,7 +1041,8 @@ int read_operands(){
 }
 
 void execute(){
-    for(int i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
+    int i;
+    for(i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
         if(unidades_funcionais[i].cycle_counter < unidades_funcionais[i].cycles_needed){
             if(unidades_funcionais[i].cycle_counter == 0){
                 switch (unidades_funcionais[i].unidade_func_type){
@@ -1139,7 +1145,8 @@ void execute(){
                             case SPECIAL2:
                                 switch(unidades_funcionais[i].instr){
                                     case MSUB:
-                                        /*buffer*/ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor));
+                                        buffer[unidades_funcionais[i].dest_register].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor));
+                                        buffer[REG_HI].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor)) >> 32;
                                     break;
                                 } 
                             break;               
@@ -1223,6 +1230,27 @@ void write_back(unidade_func* unidades){
         if(BUS[3].lista_UF_prontas[i] != FLAG_VAZIO){
             banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor = buffer[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor;
             banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].Qi = FLAG_VAZIO;
+            switch(unidades_funcionais[BUS[3].lista_UF_prontas[i]].operacao){
+                case MULT:
+                case DIV:
+                case MADD:
+                case MSUB:
+                    banco_registradores[REG_HI].valor = buffer[REG_HI].valor;
+                    banco_registradores[REG_HI].Qi = FLAG_VAZIO;
+            }
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].busy = FLAG_READY;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].operacao = i;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register = FLAG_VAZIO;
+            for (int j = 0; j<2; j++){
+                unidades_funcionais[BUS[3].lista_UF_prontas[i]].source_register[j] = FLAG_VAZIO;
+                unidades_funcionais[BUS[3].lista_UF_prontas[i]].q[j] = FLAG_VAZIO;
+                unidades_funcionais[BUS[3].lista_UF_prontas[i]].ready[j] = FLAG_VAZIO;
+            }
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].instr_type = FLAG_VAZIO;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].instr_valida = FLAG_VAZIO;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].Res = FLAG_VAZIO;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].Res11 = FLAG_VAZIO;
+            unidades_funcionais[BUS[3].lista_UF_prontas[i]].cycle_counter = FLAG_VAZIO;
         }
     }
 
