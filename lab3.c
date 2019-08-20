@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include "hash.h"
 
 // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 , LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
 int zero = 0;
@@ -932,6 +933,10 @@ void tradutor(char *palavra, FILE *arq) {
     }
 }
 
+void alimenta_hash(FILE *arq){
+
+}
+
 void busca(char arquivo_binario[]) {
     FILE *arq;
     FILE *arq2;
@@ -950,6 +955,7 @@ void busca(char arquivo_binario[]) {
 }
 
 int main () {
+    init_hash();
     int a;
     char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
