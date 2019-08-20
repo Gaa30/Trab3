@@ -1,5 +1,7 @@
 ADD $t0, $zero, $zero
+LABEL:
 ADDI $t0, $t0, 10
+LABEL2:
 ADD $t1, $t0, $zero
 ADDI $t1, $t1, 3
 MUL $t2, $t1, $t0

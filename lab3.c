@@ -38,7 +38,7 @@ int sp = 29;
 int fp = 30;
 int ra = 31;
 
-/*void bintohex(char *bin, char *hex) {
+/*void //bintohex(char *bin, char *hex) {
     int i = 0, j = 0;
     char aux[4];
     for(i=0;i<32;i+=4){
@@ -338,9 +338,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
     } 
     else if (!strcmp(aux, "ADDI")) {
         char instruBin[6] = "001000";
@@ -353,9 +353,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 16);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
     }
     else if (!strcmp(aux, "AND")) {
         char instruBin[6] = "000000";
@@ -370,8 +370,8 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100100");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "ANDI")) {
@@ -385,8 +385,8 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 16);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "B")) {
@@ -403,8 +403,8 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BEQ")) {
@@ -419,9 +419,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 5);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BEQL")) {
@@ -436,9 +436,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 5);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BGEZ")) {
@@ -455,9 +455,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00001");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BGTZ")) {
@@ -474,9 +474,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BLEZ")) {
@@ -493,9 +493,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BLTZ")) {
@@ -512,9 +512,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "BNE")) {
@@ -529,9 +529,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 5);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        //fprintf(arq, "%s\n", hex);        
+        ////bintohex(bin, hex);
+        ////printf("%s", hex);
+        //fprintf(arq, "%s\n", bin);        
         
     }
     else if (!strcmp(aux, "DIV")) {
@@ -547,9 +547,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "011010");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "J")) {
@@ -564,9 +564,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 26);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "JR")) {
@@ -585,9 +585,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "001001");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "LUI")) {
@@ -602,9 +602,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 16);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MADD")) {
@@ -621,9 +621,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "000000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MFHI")) {
@@ -641,9 +641,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "010000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MFLO")) {
@@ -661,9 +661,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "010010");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MOVN")) {
@@ -679,10 +679,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "001011");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MOVZ")) {
@@ -698,10 +698,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "001010");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MSUB")) {
@@ -718,10 +718,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "000100");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MTHI")) {
@@ -738,10 +738,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "010001");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MTLO")) {
@@ -759,10 +759,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "010011");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MUL")) {
@@ -778,10 +778,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "000010");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "MULT")) {
@@ -797,10 +797,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "011000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "NOP")) {
@@ -818,10 +818,10 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "000000");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
         printf("%s", bin);
-        fprintf(arq, "%s\n", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "NOR")) {
@@ -836,9 +836,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100111");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "OR")) {
@@ -854,9 +854,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100101");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "ORI")) {
@@ -870,9 +870,9 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 16);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "SUB")) {
@@ -888,9 +888,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100010");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "XOR")) {
@@ -906,9 +906,9 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "100110");
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else if (!strcmp(aux, "XORI")) {
@@ -922,19 +922,205 @@ void tradutor(char *palavra, FILE *arq) {
         split_op(numOp, palavra, i, bin, n, 16);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
-        bintohex(bin, hex);
-        printf("%s", hex);
-        fprintf(arq, "%s\n", hex);
+        //bintohex(bin, hex);
+        //printf("%s", hex);
+        fprintf(arq, "%s\n", bin);
         
     }
     else {
-        printf ("Instrução não implementada no programa.");
-        
+        printf("Label");
     }
 }
 
-void alimenta_hash(FILE *arq){
+int alimenta_hash(char* palavra, int count){
+    //FILE *arq;
+    //arq = fopen("arquivo_saida", "w");
+    char ch;
+    char bin[32];
+    int i = 0, a;
+    char aux[strlen(palavra)];
+    for (i; ch != ' '; i++) {
+        ch = palavra[i];
+        aux[i] = ch;
+    }
+    ch = 'a';
+    aux[i-1] = '\0';
+    //printf ("%s ", aux);
+    // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 ,
+    //LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
+    if (!strcmp(aux, "ADD")) {
+        char instruBin[6] = "000000";
+        return 1;
+    } 
+    else if (!strcmp(aux, "ADDI")) {
+        char instruBin[6] = "001000";
+        return 1;
+    }
+    else if (!strcmp(aux, "AND")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "ANDI")) {
+        char instruBin[6] = "001100";
+        return 1;
+    }
+    else if (!strcmp(aux, "B")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        char instruBin[6] = "000100";
+        return 1;
+    }
+    else if (!strcmp(aux, "BEQ")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        char instruBin[6] = "000100";
+        return 1;
+    }
+    else if (!strcmp(aux, "BEQL")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        char instruBin[6] = "010100";
+        return 1;
+    }
+    else if (!strcmp(aux, "BGEZ")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        // Não está concatenando o registrador passado.
+        char instruBin[6] = "000001";
+        return 1;
+    }
+    else if (!strcmp(aux, "BGTZ")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        // Não está concatenando o registrador passado.
+        char instruBin[6] = "000111";
+        return 1;
+    }
+    else if (!strcmp(aux, "BLEZ")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        // Não está concatenando o registrador passado.
+        char instruBin[6] = "000110";
+        return 1;
+    }
+    else if (!strcmp(aux, "BLTZ")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        // Não está concatenando o registrador passado.
+        char instruBin[6] = "000001";
+        return 1;
+    }
+    else if (!strcmp(aux, "BNE")) {
+        // Arrumar, ainda não sei como implementar o offset.
+        char instruBin[6] = "000101";     
+        return 1;
+    }
+    else if (!strcmp(aux, "DIV")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "J")) {
+        // Ainda não sei o que é instr_index
+        char instruBin[6] = "000010";
+        return 1;
+    }
+    else if (!strcmp(aux, "JR")) {
+        // Ainda não sei o que é instr_index
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "LUI")) {
+        char instruBin[6] = "001111";
+        return 1;
+    }
+    else if (!strcmp(aux, "MADD")) {
+        char instruBin[6] = "011100";
+        return 1;
+    }
+    else if (!strcmp(aux, "MFHI")) {
+        // Arrumar, provavelmente é o caso quando for só 1 operador.
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MFLO")) {
+        // Arrumar, provavelmente é o caso quando for só 1 operador.
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MOVN")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MOVZ")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MSUB")) {
+        char instruBin[6] = "011100";
+        return 1;
+    }
+    else if (!strcmp(aux, "MTHI")) {
+        // Arrumar 1 op.
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MTLO")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "MUL")) {
+        char instruBin[6] = "011100";
+        return 1;
+    }
+    else if (!strcmp(aux, "MULT")) {
+        char instruBin[6] = "011100";
+        return 1;
+    }
+    else if (!strcmp(aux, "NOP")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "NOR")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "OR")) {
+        char instruBin[6] = "000000";
+        return 1;
+        
+    }
+    else if (!strcmp(aux, "ORI")) {
+        char instruBin[6] = "001101";
+        return 1;
+        
+    }
+    else if (!strcmp(aux, "SUB")) {
+        char instruBin[6] = "000000";
+        return 1;
+        
+    }
+    else if (!strcmp(aux, "XOR")) {
+        char instruBin[6] = "000000";
+        return 1;
+    }
+    else if (!strcmp(aux, "XORI")) {
+        char instruBin[6] = "001110";
+        return 1;
+    }
+    else {
+        printf("%s\n", aux);
+        insert_label(aux, count*4);
+        get_data(aux);
+        return 2;
+    }
+}
 
+void busca_label2(char arquivo_binario[]) {
+    FILE *arq;
+    arq = fopen(arquivo_binario, "r");
+    int i = 0;
+    char aux[24];
+    while(fgets(aux, 24, arq) != NULL) {
+        aux[strcspn(aux, "\r\n")] = 0;
+        if (alimenta_hash(aux, i) == 2){
+            i = i;
+        }else{
+            i++;
+        }
+    }
 }
 
 void busca(char arquivo_binario[]) {
@@ -945,6 +1131,7 @@ void busca(char arquivo_binario[]) {
     memset(aux, '\0', 24);
     int a;
     arq = fopen(arquivo_binario, "r");
+    fseek(arq, 0, SEEK_SET);
     while(fgets(aux, 24, arq) != NULL) {
         aux[strcspn(aux, "\r\n")] = 0;
         printf("\n%s\n", aux);
@@ -954,13 +1141,17 @@ void busca(char arquivo_binario[]) {
     fclose(arq2);
 }
 
+
+
 int main () {
     init_hash();
     int a;
-    char arquivo_binario[24] = "ADDI $t1, $t1, 3";
+    //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
     //tradutor(arquivo_binario);
-    busca("arquivo_assembly");
+    //busca("arquivo_assembly");
+    busca_label2("arquivo_assembly");
+
     return 0;
 }
