@@ -15,7 +15,7 @@ unsigned int hash(char* key){
 }
 
 int insert_label(char* key, int data){
-    //key[strlen(key) - 1] = '\0';
+    key[strlen(key) - 1] = '\0';
     if (Hash_Table[hash(key)].data != NONE) return 0;
     Hash_Table[hash(key)].key = key;
     Hash_Table[hash(key)].data = data;
@@ -26,6 +26,6 @@ int get_data(char* key){
         printf("Erro: Label não existente.\n");
         exit(EXIT_FAILURE);
     }
-    printf("%d", Hash_Table[hash(key)].data);
+    printf("%d\n", Hash_Table[hash(key)].data);
     return Hash_Table[hash(key)].data;
 }

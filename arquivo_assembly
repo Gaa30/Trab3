@@ -1,1 +1,13 @@
-B l1
+MADD $a3, $t0
+BEQ $v0, $v1, LU
+BEQL $v0, $v1, LU
+BGTZ $v1, LU
+BLEZ $v0, LU
+BNE $v0, $v1, LU
+BGEZ $v0, LU
+JR $v0
+BLTZ $v0, LU
+MADD $a3, $t0
+LU:
+MADD $a3, $t0
+B LU
