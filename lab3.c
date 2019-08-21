@@ -198,6 +198,7 @@ void itobin(char op[], char *binario, int sizeOp){
     }
     else if (sizeOp == 16) {
         a = atoi(op);
+        printf("%s", a);
     }
     char aux[sizeOp];
     int i;
@@ -310,8 +311,6 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
 }
 
 void tradutor(char *palavra, FILE *arq) {
-    //FILE *arq;
-    //arq = fopen("arquivo_saida", "w");
     char ch;
     char bin[32];
     int i = 0, a;
@@ -398,6 +397,7 @@ void tradutor(char *palavra, FILE *arq) {
         memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
+        printf("%s\n", bin);
         split_op(numOp, palavra, i, bin, n, 16);
         strcat(bin, "00000");
         strcat(bin, "00000");
@@ -928,6 +928,7 @@ void tradutor(char *palavra, FILE *arq) {
         
     }
     else {
+        char instruBin[6] = "001110";
         printf("Label");
     }
 }
@@ -1117,7 +1118,7 @@ void busca_label2(char arquivo_binario[]) {
         aux[strcspn(aux, "\r\n")] = 0;
         if (alimenta_hash(aux, i) == 2){
             i = i;
-        }else{
+        } else{
             i++;
         }
     }
@@ -1150,8 +1151,8 @@ int main () {
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
     //tradutor(arquivo_binario);
-    //busca("arquivo_assembly");
-    busca_label2("arquivo_assembly");
+    busca("arquivo_assembly");
+    //busca_label2("arquivo_assembly");
 
     return 0;
 }
