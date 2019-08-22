@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "memoria.h"
+#include "barramento.h"
+#include "unidade_func.h"
 
 char* decimal_to_binary_16bits(int n){
     int c, d, count;

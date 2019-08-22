@@ -1,7 +1,10 @@
-*Descobrir como fazer as que usam HI e LO
-*Pensar em como fazer o estagio de execução
-*Separar bem quais funções vão para cada UF
-*Verificar se o unidade_func.c tá correto
-*terminar o estágio de decode do processador.c (MULT só, eu acho)
-*
+Corrigir os jumps e branches nas unidades funcionais [ ]
+Corrigir os jumps e branches na parte de execução do processador [ ]
+Testes :
+Memoria[ ] ( Como testar?)
+Barramento[ ]
+Unidades Funcionais e processador [ ]
 
+* Extra 
+Previsao de desvio[ ]
+Backtracing[ ]
