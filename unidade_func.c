@@ -6,6 +6,13 @@
 //a unidade funcional 3 é de add e
 //a unidade funcional 4 é de int
 
+int EMITIDA = TRUE;
+int INIT_POS = 0;
+int INIT_POS_DIV = QUANT_UF_MUL;
+int INIT_POS_ADD = QUANT_UF_MUL + QUANT_UF_DIV;
+int INIT_POS_INT = QUANT_UF_MUL + QUANT_UF_DIV + QUANT_UF_ADD;
+int TAM_UNIDADE_FUNC = QUANT_UF_ADD + QUANT_UF_DIV + QUANT_UF_INT + QUANT_UF_MUL;
+
 void next(int pos){
     BUS[pos].type = BUS[pos - 1].type;
     BUS[pos].instrucao = BUS[pos - 1].instrucao;
@@ -59,12 +66,15 @@ unidade_func* init_unidade_func(){
 
 //ISSUE TA PRONTA
 int issue(){
+    int unidade_funcional_code;
+    int i;
+    int checkB1, checkB2;
     switch(BUS[0].type){
         case DEFAULT:
             switch(BUS[0].opcode){
                 case ADDI:
-                    int unidade_funcional_code = UF_ADD_CODE;
-                    int i = INIT_POS_ADD;
+                    unidade_funcional_code = UF_ADD_CODE;
+                    i = INIT_POS_ADD;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_INT){
                         i++;
                     }
@@ -93,8 +103,8 @@ int issue(){
                     }
                 break;
                 case ANDI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -122,12 +132,12 @@ int issue(){
                     }
                 break;
                 case B || BEQ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
-                    int checkB1, checkB2 = BUS[0].instrucao;
+                    checkB1, checkB2 = BUS[0].instrucao;
                     checkB1 = checkB1 >> 16 &11111;
                     checkB2 = checkB2 >> 21 &11111;
                     if(unidades_funcionais[i].unidade_func_type == UF_INT_CODE){
@@ -161,8 +171,8 @@ int issue(){
                     }
                 break;
                 case BEQL:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -191,8 +201,8 @@ int issue(){
                     }
                 break;
                 case BGTZ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -219,8 +229,8 @@ int issue(){
                     }
                 break;
                 case BLEZ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -247,8 +257,8 @@ int issue(){
                     }
                 break;
                 case BNE:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -277,8 +287,8 @@ int issue(){
                     }
                 break;
                 case J:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -303,8 +313,8 @@ int issue(){
                     }
                 break;
                 case LUI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -329,8 +339,8 @@ int issue(){
                     }
                 break;
                 case ORI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -359,8 +369,8 @@ int issue(){
                     }
                 break;
                 case XORI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -393,8 +403,8 @@ int issue(){
         case SPECIAL:
             switch(BUS[0].opcode){
                 case ADD:
-                    int unidade_funcional_code = UF_ADD_CODE;
-                    int i = INIT_POS_ADD;
+                    unidade_funcional_code = UF_ADD_CODE;
+                    i = INIT_POS_ADD;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_INT){
                         i++;
                     }
@@ -423,8 +433,8 @@ int issue(){
                     }
                 break;
                 case AND:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -453,8 +463,8 @@ int issue(){
                     }
                 break;
                 case DIV:
-                    int unidade_funcional_code = UF_DIV_CODE;
-                    int i = INIT_POS_DIV;
+                    unidade_funcional_code = UF_DIV_CODE;
+                    i = INIT_POS_DIV;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_ADD){
                         i++;
                     }
@@ -483,9 +493,9 @@ int issue(){
                         EMITIDA = FALSE;
                     }
                 break;
-                case JR://como assim não tem rd???
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                case JR://como assim não tem rd??? //verificar
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -512,8 +522,8 @@ int issue(){
                     }
                 break;
                 case MFHI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -538,8 +548,8 @@ int issue(){
                     }
                 break;
                 case MFLO:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -564,8 +574,8 @@ int issue(){
                     }
                 break;
                 case MOVN:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -594,8 +604,8 @@ int issue(){
                     }
                 break;
                 case MOVZ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -624,8 +634,8 @@ int issue(){
                     }
                 break;
                 case MTHI:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -654,8 +664,8 @@ int issue(){
                     }
                 break;
                 case MTLO:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -684,8 +694,8 @@ int issue(){
                     }
                 break;
                 case MULT:
-                    int unidade_funcional_code = UF_MUL_CODE;
-                    int i = INIT_POS;
+                    unidade_funcional_code = UF_MUL_CODE;
+                    i = INIT_POS;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_DIV){
                         i++;
                     }
@@ -715,8 +725,8 @@ int issue(){
                     }
                 break;
                 case NOP:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -740,8 +750,8 @@ int issue(){
                     }
                 break;
                 case NOR:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -770,8 +780,8 @@ int issue(){
                     }
                 break;
                 case OR:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -800,8 +810,8 @@ int issue(){
                     }
                 break;
                 case SUB:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -830,8 +840,8 @@ int issue(){
                     }
                 break;
                 case XOR:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -864,8 +874,8 @@ int issue(){
         case SPECIAL2:
             switch(BUS[0].opcode){
                 case MADD:
-                    int unidade_funcional_code = UF_ADD_CODE;
-                    int i = INIT_POS_ADD;
+                    unidade_funcional_code = UF_ADD_CODE;
+                    i = INIT_POS_ADD;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_INT){
                         i++;
                     }
@@ -895,8 +905,8 @@ int issue(){
                     }
                 break;
                 case MSUB:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -926,8 +936,8 @@ int issue(){
                     }
                 break;
                 case MUL:
-                    int unidade_funcional_code = UF_MUL_CODE;
-                    int i = INIT_POS;
+                    unidade_funcional_code = UF_MUL_CODE;
+                    i = INIT_POS;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_DIV){
                         i++;
                     }
@@ -960,8 +970,8 @@ int issue(){
         case REGIMM:
             switch(BUS[0].opcode){
                 case BGEZ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -988,8 +998,8 @@ int issue(){
                     }
                 break;
                 case BLTZ:
-                    int unidade_funcional_code = UF_INT_CODE;
-                    int i = INIT_POS_INT;
+                    unidade_funcional_code = UF_INT_CODE;
+                    i = INIT_POS_INT;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < TAM_UNIDADE_FUNC){
                         i++;
                     }
@@ -1041,6 +1051,7 @@ int read_operands(){
 }
 
 void execute(){
+    int low_order_zero;
     int i;
     for(i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
         if(unidades_funcionais[i].cycle_counter < unidades_funcionais[i].cycles_needed){
@@ -1051,8 +1062,8 @@ void execute(){
                         if(unidades_funcionais[i].instr == MUL){
                             buffer[unidades_funcionais[i].dest_register].valor = ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor,banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                         }else{//falta checar overflow
-                            int resultado;
-                            resultado = ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]],banco_registradores[unidades_funcionais[i].source_register[1]]);
+                            size_t resultado;
+                            resultado = ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor,banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                             buffer[unidades_funcionais[i].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
                             buffer[REG_HI].valor = resultado >> 32;        
                         }
@@ -1069,7 +1080,7 @@ void execute(){
                         }else if (unidades_funcionais[i].instr == ADDI){
                             buffer[unidades_funcionais[i].dest_register].valor = ula_somador(unidades_funcionais[i].source_register[0], banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                         }else{
-                            int resultado;
+                            long int resultado;
                             resultado = ula_mult(unidades_funcionais[i].source_register[0],unidades_funcionais[i].source_register[1]);
                             buffer[unidades_funcionais[i].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
                             buffer[REG_HI].valor = resultado >> 32;     
@@ -1112,7 +1123,7 @@ void execute(){
                                         if(buffer[unidades_funcionais[i].source_register[0]].valor != 0){
                                             buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
                                         } else{
-                                            return 0;
+                                            printf("Nao foi possivel mover\n");//verificar
                                         }
                                     break;
                                     case MOVZ:
@@ -1135,7 +1146,7 @@ void execute(){
                                         buffer[unidades_funcionais[i].dest_register].valor = ula_or(banco_registradores[unidades_funcionais[i].source_register[1]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
                                     break;
                                     case SUB:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_sub(banco_registradores[unidades_funcionais[i].source_register[1]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
+                                        buffer[unidades_funcionais[i].dest_register].valor = ula_subtrator(banco_registradores[unidades_funcionais[i].source_register[1]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
                                     break;
                                     case XOR:
                                         buffer[unidades_funcionais[i].dest_register].valor = ula_xor(banco_registradores[unidades_funcionais[i].source_register[i]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
@@ -1201,7 +1212,7 @@ void execute(){
                                         //PC  PCGPRLEN-1..28 || instr_index || 02
                                     break;*/
                                     case LUI:
-                                        int low_order_zero = 00000000000000000000000000000000;
+                                        low_order_zero = 00000000000000000000000000000000;
                                         buffer[unidades_funcionais[i].dest_register].valor = low_order_zero;
                                     break;
                                     case ORI:

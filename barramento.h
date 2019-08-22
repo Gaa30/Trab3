@@ -1,9 +1,12 @@
+#ifndef BARRAMENTO_H
+#define BARRAMENTO_H
 #include <stdio.h>
 #include <stdlib.h>
 #include "definitions.h"
 #include "unidade_func.h"
+#include "utils.h"
 
-typedef struct{
+typedef struct barramento{
     int opcode;
     int type;
     int instrucao;
@@ -18,3 +21,5 @@ barramento* init_barramento();
 barramento* BUS;
 
 void add_info_barramento(int opcode, int type, int instrucao, int valida, int unidade_func, int rs, int rt, int rd);
+
+#endif

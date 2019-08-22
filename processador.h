@@ -3,13 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "util.h"
-#include "memoria.h"
-#include "banco_registradores.h"
-//#include "estacoesReserva.h"
-//#include "DQueue.h"
 #include "ula.h"
+#include "barramento.h"
+#include "unidade_func.h"
 #include "definitions.h"
+#include "memoria.h"
 
 //Barramento CDB;
 
@@ -17,7 +15,8 @@ void start();
 void next();
 void print();
 
+int getTipoInst(int opcode);
 void estagio_busca_pipeline();
-void estagio_execucao_pipeline();
+void processador();
 
 #endif

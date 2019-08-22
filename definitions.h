@@ -1,12 +1,11 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
+#include<stdlib.h>
+#include<string.h>
+
 
 #define TAM_PALAVRA 4
 #define START_ADDRESS_DATA 0x4000000
-#define QUANT_UF_MUL 2
-#define QUANT_UF_DIV 1
-#define QUANT_UF_INT 1
-#define QUANT_UF_ADD 1
 
 #define UF_MUL_CODE 9990
 #define UF_DIV_CODE 9991
@@ -87,66 +86,5 @@ typedef struct instruction{
     int type;
     int operation;
 }instruction;
-
-int TAM_UNIDADE_FUNC = QUANT_UF_ADD + QUANT_UF_DIV + QUANT_UF_INT + QUANT_UF_MUL;
-int INIT_POS = 0;
-int INIT_POS_DIV = QUANT_UF_MUL;
-int INIT_POS_ADD = QUANT_UF_MUL + QUANT_UF_DIV;
-int INIT_POS_INT = QUANT_UF_MUL + QUANT_UF_DIV + QUANT_UF_ADD;
-int EMITIDA = TRUE;
-
-char* decimal_to_binary_16bits(int n){
-    int c, d, count;
-    char* pointer;
-    char* splitted;
-    count = 0;
-    pointer = (char*)malloc(32);
-    if(pointer == NULL){
-        exit(EXIT_FAILURE);
-    }
-    for(c = 31; c>=0; c--){
-        d = n >> c;
-        if(d&1)
-            *(pointer+count) = 1 + '0';
-        else
-            *(pointer+count) = 0 + '0';
-        count ++;
-    }
-    *(pointer+count) = '\0';
-    for(c = 31; c>=16; c--){
-        splitted[c-16] = pointer[c];
-    }
-    while(strlen(splitted)>16){
-        splitted[strlen(splitted)-1] = '\0';
-    }
-    return splitted;
-}
-
-char* decimal_to_binary_26bits(int n){
-    int c, d, count;
-    char* pointer;
-    char* splitted;
-    count = 0;
-    pointer = (char*)malloc(32+1);
-    if(pointer == NULL){
-        exit(EXIT_FAILURE);
-    }
-    for(c = 31; c>=0; c--){
-        d = n >> c;
-        if(d&1)
-            *(pointer+count) = 1 + '0';
-        else
-            *(pointer+count) = 0 + '0';
-        count ++;
-    }
-    *(pointer+count) = '\0';
-    for(c = 31; c>=6; c--){
-        splitted[c-6] = pointer[c];
-    }
-    while(strlen(splitted)>26){
-        splitted[strlen(splitted)-1] = '\0';
-    }
-    return splitted;
-}
 
 #endif

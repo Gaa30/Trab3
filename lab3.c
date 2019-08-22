@@ -2,9 +2,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include "import.h"
 #include "hash.h"
-#include <string.h>
-#include "definitions.h"
+#include "lab3.h"
 
 // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 , LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
 int zero = 0;
@@ -324,6 +324,8 @@ void tradutor(char *palavra, FILE *arq) {
     ch = 'a';
     aux[i-1] = '\0';
     printf ("%s ", aux);
+    char* buffer;
+    int j;
     // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 ,
     //LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
     if (!strcmp(aux, "ADD")) {
@@ -402,8 +404,6 @@ void tradutor(char *palavra, FILE *arq) {
         printf("%s\n", bin);
         strcat(bin, "00000");
         strcat(bin, "00000");
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
@@ -416,8 +416,6 @@ void tradutor(char *palavra, FILE *arq) {
     else if (!strcmp(aux, "BEQ")) {
         // Arrumar, ainda não sei como implementar o offset.
         char instruBin[6] = "000100";
-        char* buffer;
-        int j;
         int n = 6;
         int numOp = 2;
         char hex[8];
@@ -439,8 +437,6 @@ void tradutor(char *palavra, FILE *arq) {
         // Arrumar, ainda não sei como implementar o offset.
         char instruBin[6] = "010100";
         int n = 6;
-        char* buffer;
-        int j;
         int numOp = 2;
         char hex[8];
         memset(hex, '\0', 8);
@@ -469,11 +465,10 @@ void tradutor(char *palavra, FILE *arq) {
         bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00001");
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
+        //fprintf(arq, "%s\n", bin);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
         ////bintohex(bin, hex);
@@ -493,8 +488,6 @@ void tradutor(char *palavra, FILE *arq) {
         bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00000");
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
@@ -517,8 +510,6 @@ void tradutor(char *palavra, FILE *arq) {
         bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00000");
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
@@ -541,8 +532,6 @@ void tradutor(char *palavra, FILE *arq) {
         bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00000");
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
@@ -561,18 +550,19 @@ void tradutor(char *palavra, FILE *arq) {
         char hex[8];
         memset(hex, '\0', 8);
         strcpy(bin, instruBin);
-        bin[6] = '\0';
+        //bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
-        char* buffer;
-        int j;
         j = get_data("LU");
         buffer = decimal_to_binary_16bits(j);
         strcat(bin, buffer);
         printf ("%s\n", bin);
         printf ("%li\n", strlen(bin));
+        printf("oi");
         ////bintohex(bin, hex);
         ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);        
+        //fprintf(arq, "%s\n", bin);    
+        //fputs(bin, arq);
+        //fputs("\n", arq);    
         
     }
     else if (!strcmp(aux, "DIV")) {
@@ -601,9 +591,7 @@ void tradutor(char *palavra, FILE *arq) {
         char hex[8];
         memset(hex, '\0', 8);
         strcpy(bin, instruBin);
-        bin[6] = '\0';
-        char* buffer;
-        int j;
+        //bin[6] = '\0';
         j = get_data("LU");
         buffer = decimal_to_binary_26bits(j);
         strcat(bin, buffer);
@@ -622,7 +610,7 @@ void tradutor(char *palavra, FILE *arq) {
         char hex[8];
         memset(hex, '\0', 8);
         strcpy(bin, instruBin);
-        bin[6] = '\0';
+        //bin[6] = '\0';
         split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00000");
         strcat(bin, "00000");
@@ -826,7 +814,6 @@ void tradutor(char *palavra, FILE *arq) {
         printf ("%li\n", strlen(bin));
         //bintohex(bin, hex);
         //printf("%s", hex);
-        printf("%s", bin);
         fprintf(arq, "%s\n", bin);
         
     }
@@ -845,7 +832,6 @@ void tradutor(char *palavra, FILE *arq) {
         printf ("%li\n", strlen(bin));
         //bintohex(bin, hex);
         //printf("%s", hex);
-        printf("%s", bin);
         fprintf(arq, "%s\n", bin);
         
     }
@@ -866,7 +852,6 @@ void tradutor(char *palavra, FILE *arq) {
         printf ("%li\n", strlen(bin));
         //bintohex(bin, hex);
         //printf("%s", hex);
-        printf("%s", bin);
         fprintf(arq, "%s\n", bin);
         
     }
@@ -1138,15 +1123,19 @@ void busca(char arquivo_binario[]) {
 
 
 int main () {
+    inicializar_registradores();
+    init_barramento();
     init_hash();
-    int a;
+    inicia(12);
+    init_unidade_func();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
     //tradutor(arquivo_binario);
     busca_label2("arquivo_assembly");
     busca("arquivo_assembly");
-    
-
+    alimenta_memoria("arquivo_saida");
+    print();
     return 0;
 }
+

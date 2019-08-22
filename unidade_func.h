@@ -3,9 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "definitions.h" 
-#include "banco_registradores.h"
 #include "barramento.h"
+#include "ula.h"
+#include "banco_registradores.h"
+#include "definitions.h"
+#include "utils.h"
 
 typedef struct unidade_func{
     int busy;

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "barramento.h"
 
+int TAM_UF = QUANT_UF_ADD + QUANT_UF_DIV + QUANT_UF_INT + QUANT_UF_MUL;
+
 barramento* init_barramento(){
     BUS = (barramento*)malloc(sizeof(barramento)*QTD_BARRAMENTOS);
     for(int i =0; i<QTD_BARRAMENTOS; i++){
@@ -11,7 +13,7 @@ barramento* init_barramento(){
         BUS[i].unidade_func = FLAG_VAZIO; 
         BUS[i].rs, BUS[i].rt, BUS[i].rd = FLAG_VAZIO;
         if (i == 3){
-            for(int j = 0; j < TAM_UNIDADE_FUNC; j++){
+            for(int j = 0; j < TAM_UF; j++){
                 BUS[i].lista_UF_prontas[j] = FLAG_VAZIO;
             }
         }

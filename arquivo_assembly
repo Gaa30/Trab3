@@ -7,7 +7,5 @@ BNE $v0, $v1, LU
 BGEZ $v0, LU
 JR $v0
 BLTZ $v0, LU
-MADD $a3, $t0
 LU:
 MADD $a3, $t0
-B LU

@@ -1,3 +1,5 @@
+#ifndef ULA_H
+#define ULA_H
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -21,3 +23,4 @@ size_t ula_mod(size_t operando1, size_t operando2);
 
 size_t ula_shiftleft(size_t operando1, size_t operando2);
 
+#endif

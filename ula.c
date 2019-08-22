@@ -33,7 +33,8 @@ size_t ula_div(size_t divisor, size_t dividiendo){
         return dividiendo/divisor;
     }
     else{
-        return ;
+        printf("Impossível realizar divisão por 0!\n");
+        return 0;
     }
 }
 

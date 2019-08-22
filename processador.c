@@ -1,11 +1,23 @@
 #include "processador.h"
-#include "util.h"
-#include "unidade_func.h"
-#include "barramento.h"
 
 void estagio_busca_pipeline(){
     IR.valor = read(PC.valor);    
     PC.valor += ula_somador(PC.valor, 4);
+}
+
+int getTipo(int instr){
+    int isSpecial = instr >> 26 &0xB; 
+    if (isSpecial = SPECIAL){
+        return SPECIAL;
+    }
+    else if(isSpecial = SPECIAL2){
+        return SPECIAL2;
+    }
+    else if(isSpecial = REGIMM){
+        return REGIMM;
+    }else{
+        return DEFAULT;
+    }
 }
 
 //decodificacao do codigo da instrucao no IR, e coloca na fila
@@ -14,103 +26,10 @@ void decodificacao(){
     int instr = IR.valor;
     int rd, rs, rt = instr;
     int type = instr &111111;
-    type = getTipoInst(type);
+    type = getTipo(type);
     int opcode = 0;
     instruction * instrucao = (instruction *)malloc(sizeof(instruction));
     switch(type){
-        case DEFAULT:
-            opcode = instr >> 26 &111111;
-            switch(opcode){
-                case ADDI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ADDI;
-                    instrucao->rd = rd >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = rt &1111111111111111;
-                break;
-                case ANDI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ANDI;
-                    instrucao->rd = rd >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = rt &1111111111111111;
-                break;
-                case B || BEQ:
-                    instrucao->type = DEFAULT;
-                    int checkB1, checkB2 = instr;
-                    checkB1 = checkB1 >> 16 &11111;
-                    checkB2 = checkB2 >> 21 &11111;
-                    if(checkB1 == 00000 && checkB2 == 00000){
-                        instrucao->operation = B;
-                        instrucao->rd = rd &1111111111111111;
-                        instrucao->rs = FLAG_VAZIO;
-                        instrucao->rt = FLAG_VAZIO;
-                    }else{
-                        instrucao->operation = BEQ;
-                        instrucao->rd = rd &1111111111111111;
-                        instrucao->rt = rt >> 16 &11111;
-                        instrucao->rs = rs >> 21 &11111;
-                    }
-                break;
-                case BEQL:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BEQL;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rt = rt >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                break;
-                case BGTZ:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BGTZ;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = FLAG_VAZIO;
-                break;
-                case BLEZ:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BLEZ;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rs = rs >> 21 &11111;
-                    instrucao->rt = FLAG_VAZIO;
-                break;
-                case BNE:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BNE;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rt = rt >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                break;
-                case J:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = J;
-                    instrucao->rd = rd &11111111111111111111111111;
-                    instrucao->rt = FLAG_VAZIO;
-                    instrucao->rs = FLAG_VAZIO;
-
-                break;
-                case LUI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = LUI;
-                    instrucao->rd = rd >> 16 &11111;
-                    instrucao->rt = FLAG_VAZIO;
-                    instrucao->rs = FLAG_VAZIO;
-                break;
-                case ORI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ORI;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rt = rt >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                break;
-                case XORI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = XORI;
-                    instrucao->rd = rd &1111111111111111;
-                    instrucao->rt = rt >> 16 &11111;
-                    instrucao->rs = rs >> 21 &11111;
-                break;
-            }
-        break;
         case SPECIAL:
             opcode = instr &111111;
             switch(opcode){
@@ -260,16 +179,109 @@ void decodificacao(){
                 case BGEZ:
                     instrucao->type = REGIMM;
                     instrucao->operation = BGEZ;
-                    instrucao->rd = rd >> 1111111111111111;
+                    instrucao->rd = rd &1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
                 break;
                 case BLTZ:
                     instrucao->type = REGIMM;
                     instrucao->operation = BLTZ;
-                    instrucao->rd = rd >> 1111111111111111;
+                    instrucao->rd = rd &1111111111111111;
                     instrucao->rs = rs >> 21 &11111;
                     instrucao->rt = FLAG_VAZIO;
+                break;
+            }
+        break;
+        case DEFAULT:
+            opcode = instr >> 26 &111111;
+            switch(opcode){
+                case ADDI:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = ADDI;
+                    instrucao->rd = rd >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = rt &1111111111111111;
+                break;
+                case ANDI:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = ANDI;
+                    instrucao->rd = rd >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = rt &1111111111111111;
+                break;
+                case B || BEQ:
+                    instrucao->type = DEFAULT;
+                    int checkB1, checkB2 = instr;
+                    checkB1 = checkB1 >> 16 &11111;
+                    checkB2 = checkB2 >> 21 &11111;
+                    if(checkB1 == 00000 && checkB2 == 00000){
+                        instrucao->operation = B;
+                        instrucao->rd = rd &1111111111111111;
+                        instrucao->rs = FLAG_VAZIO;
+                        instrucao->rt = FLAG_VAZIO;
+                    }else{
+                        instrucao->operation = BEQ;
+                        instrucao->rd = rd &1111111111111111;
+                        instrucao->rt = rt >> 16 &11111;
+                        instrucao->rs = rs >> 21 &11111;
+                    }
+                break;
+                case BEQL:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = BEQL;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rt = rt >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
+                break;
+                case BGTZ:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = BGTZ;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = FLAG_VAZIO;
+                break;
+                case BLEZ:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = BLEZ;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rs = rs >> 21 &11111;
+                    instrucao->rt = FLAG_VAZIO;
+                break;
+                case BNE:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = BNE;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rt = rt >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
+                break;
+                case J:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = J;
+                    instrucao->rd = rd &11111111111111111111111111;
+                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rs = FLAG_VAZIO;
+
+                break;
+                case LUI:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = LUI;
+                    instrucao->rd = rd >> 16 &11111;
+                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rs = FLAG_VAZIO;
+                break;
+                case ORI:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = ORI;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rt = rt >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
+                break;
+                case XORI:
+                    instrucao->type = DEFAULT;
+                    instrucao->operation = XORI;
+                    instrucao->rd = rd &1111111111111111;
+                    instrucao->rt = rt >> 16 &11111;
+                    instrucao->rs = rs >> 21 &11111;
                 break;
             }
         break;
@@ -277,8 +289,8 @@ void decodificacao(){
     }
 }
 
-void estagio_execucao_pipeline(){
-    execute();
+void processador(){
+    
 }
 
 
