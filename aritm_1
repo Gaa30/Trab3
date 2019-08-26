@@ -1,0 +1,25 @@
+ADD $t0, $t1, $t2
+ADDI $t0, $t1, 10
+AND $t0, $t1, $t2
+ANDI $t0, $t1, 10
+DIV $t0, $t1
+LUI $t0, 10
+MADD $t0, $t1
+MFHI $t0
+MFLO $t0
+MOVN $t0, $t1, $t2
+MOVZ $t0, $t1, $t2
+MSUB $t0, $t1
+MTHI $t0
+MTLO $t0
+MUL $t0, $t1, $t2
+MULT $t0, $t1
+NOP
+NOR $t0, $t1, $t2
+OR $t0, $t1, $t2
+ORI $t0, $t1, 10
+SUB $t0, $t1, $t2
+L1:
+XOR $t0, $t1, $t2
+XORI $t0, $t1, 10
+JR $t0, $t1

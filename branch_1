@@ -1,0 +1,15 @@
+L1:
+B L1
+BEQ $v0, $v1, L1
+BEQL $v0, $v1, L1
+BGTZ $v1, L2
+BLEZ $v0, L2
+J $t0
+L3:
+BNE $v0, $v1, L3
+BLTZ $t0, L3
+BGEZ $v0, L3
+JR $v0
+L2:
+BLTZ $v0, L4
+L4:
