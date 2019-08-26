@@ -23,9 +23,10 @@ int insert_label(char* key, int data){
 
 int get_data(char* key){
     if (Hash_Table[hash(key)].data == NONE){
-        printf("Erro: Label não existente.\n");
-        exit(EXIT_FAILURE);
+        //printf("Erro: Label não existente.\n");
+        //exit(EXIT_FAILURE);
+        return 0;
     }
-    printf("%d\n", Hash_Table[hash(key)].data);
+    //printf("%d\n", Hash_Table[hash(key)].data);
     return Hash_Table[hash(key)].data;
 }

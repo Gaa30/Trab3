@@ -5,7 +5,6 @@
 #include "hash.h"
 #include "lab3.h"
 
-// ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 , LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
 int zero = 0;
 int at = 1;
 int v0 = 2;
@@ -39,69 +38,9 @@ int sp = 29;
 int fp = 30;
 int ra = 31;
 
-/*void //bintohex(char *bin, char *hex) {
-    int i = 0, j = 0;
-    char aux[4];
-    for(i=0;i<32;i+=4){
-        for(j=0;j<4;j++){
-            aux[j] = bin[j+i];
-        }
-        if(!strcmp(aux, "0000")){
-            strcat(hex, "0");
-        }
-        else if (!strcmp(aux, "0001")) {
-            strcat(hex, "1");
-        }
-        else if (!strcmp(aux, "0010")) {
-            strcat(hex, "2");
-        }
-        else if (!strcmp(aux, "0011")) {
-            strcat(hex, "3");
-        }
-        else if (!strcmp(aux, "0100")) {
-            strcat(hex, "4");
-        }
-        else if (!strcmp(aux, "0101")) {
-            strcat(hex, "5");
-        }
-        else if (!strcmp(aux, "0110")) {
-            strcat(hex, "6");
-        }
-        else if (!strcmp(aux, "0111")) {
-            strcat(hex, "7");
-        }
-        else if (!strcmp(aux, "1000")) {
-            strcat(hex, "8");
-        }
-        else if (!strcmp(aux, "1001")) {
-            strcat(hex, "9");
-        }
-        else if (!strcmp(aux, "1010")) {
-            strcat(hex, "A");
-        }
-        else if (!strcmp(aux, "1011")) {
-            strcat(hex, "B");
-        }
-        else if (!strcmp(aux, "1100")) {
-            strcat(hex, "C");
-        }
-        else if (!strcmp(aux, "1101")) {
-            strcat(hex, "D");
-        }
-        else if (!strcmp(aux, "1110")) {
-            strcat(hex, "E");
-        }
-        else if (!strcmp(aux, "1111")) {
-            strcat(hex, "F");
-        }
-    }
-}
-*/
-
 void itobin(char op[], char *binario, int sizeOp){
     int a;
     if (!strcmp(op, "$zero")) {
-        //printf("alo");
         a = zero;
     }
     else if (!strcmp(op, "$at")) {
@@ -216,18 +155,22 @@ void itobin(char op[], char *binario, int sizeOp){
         binario[strlen(aux)-i] = aux[i-1];
     }
     binario[strlen(aux)] = '\0';
-    printf("%s ", binario);
+    printf("%s\n", binario);
 }
 
 
-void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
+void split_op(int numOp, char *palavra, int i, char *bin, int sizeOp3, int branchFlag) {
         char rs[20];
         char rt[20];
         char rd[20];
+        memset(rs, '\0', 20);
+        memset(rt, '\0', 20);
+        memset(rd, '\0', 20);
         int k;
+        int aux_count;
         char ch;
         if (numOp == 3) {
-            ch = 'a';
+            ch = '0';
             int j = 0;
             char op1[10], op2[10], op3[10];
             for (i; palavra[i] != ','; i++) {
@@ -237,7 +180,7 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
             }
             op1[j] = '\0';
             itobin(op1, rd, 5);
-            printf ("%s ", op1);
+            printf ("Op1: %s\n", op1);
             j = 0;
             for (i+=2; palavra[i] != ','; i++) {
                 ch = palavra[i];
@@ -246,7 +189,7 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
             }
             op2[j] = '\0';
             itobin(op2, rs, 5);
-            printf ("%s ", op2);
+            printf ("Op2: %s\n", op2);
             j = 0;
 
             for (i+=2; palavra[i] != '\0'; i++) {
@@ -254,23 +197,41 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
                 op3[j] = ch;
                 j++;
             }
-
             op3[j] = '\0';
-            itobin(op3, rt, sizeOp3);
-            if (sizeOp3 == 16) {
-                strcat(bin, rd);
-                strcat(bin, rs);
-                strcat(bin, rt);
-                printf("%s\n", op3);
-            } else {
-                strcat(bin, rs);
-                strcat(bin, rt);
-                strcat(bin, rd);
-                printf ("%s\n", op3);
+            if (branchFlag == 1) {
+                strcat(rt, decimal_to_binary_16bits(get_data(op3)));
+                printf("%s\n", rt);
+                aux_count = strlen(rt);
+                printf("%d", aux_count);
+                if (sizeOp3 == 16) {
+                    strcat(bin, rd);
+                    strcat(bin, rs);
+                    strcat(bin, rt);
+                    printf("Op3: %s\n", op3);
+                } else {
+                    strcat(bin, rs);
+                    strcat(bin, rd);
+                    strcat(bin, rt);
+                    printf ("Op3: %s\n", op3);
+                }
+            } 
+            else {
+                itobin(op3, rt, sizeOp3);
+                if (sizeOp3 == 16) {
+                    strcat(bin, rd);
+                    strcat(bin, rs);
+                    strcat(bin, rt);
+                    printf("Op3: %s\n", op3);
+                } else {
+                    strcat(bin, rs);
+                    strcat(bin, rt);
+                    strcat(bin, rd);
+                    printf ("Op3: %s\n", op3);
+                }
             }
             
         }  else if (numOp == 2) {
-            ch = 'a';
+            ch = '0';
             int j = 0;
             char op1[10], op2[10];
             for (i; palavra[i] != ','; i++) {
@@ -280,7 +241,7 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
             }
             op1[j] = '\0';
             itobin(op1, rs, 5);
-            printf ("%s ", op1);
+            printf ("Op1: %s\n", op1);
             j = 0;
             
             for (i+=2; palavra[i] != '\0'; i++) {
@@ -289,13 +250,21 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
                 j++;
             }
             op2[j] = '\0';
-            itobin(op2, rt, sizeOp3);
-            strcat(bin, rs);
-            strcat(bin, rt);
-            printf ("%s\n", op2);
-            j = 0;
+            if (branchFlag == 1) {
+                strcat(rt, decimal_to_binary_16bits(get_data(op2)));
+                printf("%s\n", rt);
+                strcat(bin, rs);
+                strcat(bin, rt);
+                printf("Op2: %s\n", op2);
+            } else {
+                itobin(op2, rt, sizeOp3);
+                strcat(bin, rs);
+                strcat(bin, rt);
+                printf ("Op2: %s\n", op2);
+                j = 0;
+            }
         } else if (numOp == 1) {
-            ch = 'a';
+            ch = '0';
             int j = 0;
             char op1[10];
             for (i; palavra[i] != '\0'; i++) {
@@ -304,542 +273,435 @@ void split_op(int numOp, char *palavra, int i, char *bin, int n, int sizeOp3) {
                 j++;
             }
             op1[j] = '\0';
-            itobin(op1, rs, sizeOp3);
-            strcat(bin, rs);
-            printf ("%s\n", op1);
-            //j = 0;
+            if (branchFlag == 1) {
+                if (sizeOp3 == 26) {
+                    strcat(rs, decimal_to_binary_26bits(get_data(op1)));
+                    printf("%s\n", rs);
+                    strcat(bin, rs);
+                    printf("Op2: %s\n", op1);
+                } else {
+                    strcat(rs, decimal_to_binary_16bits(get_data(op1)));
+                    printf("%s\n", rs);
+                    strcat(bin, rs);
+                    printf("Op2: %s\n", op1);
+                }
+            } else {
+                op1[j] = '\0';
+                itobin(op1, rs, sizeOp3);
+                strcat(bin, rs);
+                printf ("Op1: %s\n", op1);
+            }
         }
 }
 
-void tradutor(char *palavra, FILE *arq) {
+void tradutor(char *palavra) {
+    FILE *arq2;
     char ch;
     char bin[32];
-    int i = 0, a;
+    int i = 0, j;
     char aux[strlen(palavra)];
     for (i; ch != ' '; i++) {
         ch = palavra[i];
         aux[i] = ch;
     }
-    ch = 'a';
+    ch = '0';
     aux[i-1] = '\0';
-    printf ("%s ", aux);
+    printf ("%s\n", aux);
     char* buffer;
-    int j;
-    // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 ,
-    //LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
     if (!strcmp(aux, "ADD")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8], hex_aux[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100000");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     } 
     else if (!strcmp(aux, "ADDI")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "001000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 16);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
+        split_op(numOp, palavra, i, bin, 16, 0);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "AND")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100100");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "ANDI")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "001100";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 16);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 16, 0);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "B")) {
-        // Arrumar, ainda não sei como implementar o offset.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000100";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        printf("%s\n", bin);
         strcat(bin, "00000");
         strcat(bin, "00000");
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 16, 1);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BEQ")) {
-        // Arrumar, ainda não sei como implementar o offset.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000100";
-        int n = 6;
-        int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
+        int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf("%s\n", buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
+        split_op(numOp, palavra, i, bin, 5, 1);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BEQL")) {
-        // Arrumar, ainda não sei como implementar o offset.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "010100";
-        int n = 6;
-        int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
+        int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 5, 1);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BGEZ")) {
-        // Arrumar, ainda não sei como implementar o offset.
-        // Não está concatenando o registrador passado.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000001";
-        int n = 6;
-        int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
+        char auxCase[5] = "00001";
+        char bin_aux[32];
+        int numOp = 2, cont, cont2;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        strcat(bin, "00001");
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        //fprintf(arq, "%s\n", bin);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
-        
+        auxCase[5] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 1);
+        for (cont = 0; cont < 11; cont++) {
+            bin_aux[cont] = bin[cont];
+        }
+        strcat(bin_aux, auxCase);
+        for (cont2 = 16; cont2 <= 32; cont2++) {
+            bin_aux[cont2] = bin[cont2-5];
+        }
+        printf ("Binário: %s\n", bin_aux);
+        printf ("Tamanho: %li\n\n", strlen(bin_aux));
+        fprintf(arq2, "%s\n", bin_aux);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BGTZ")) {
-        // Arrumar, ainda não sei como implementar o offset.
-        // Não está concatenando o registrador passado.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000111";
-        int n = 6;
-        int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
+        char auxCase[5] = "00000";
+        char bin_aux[32];
+        int numOp = 2, cont, cont2;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        strcat(bin, "00000");
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
-        
+        auxCase[5] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 1);
+        for (cont = 0; cont < 11; cont++) {
+            bin_aux[cont] = bin[cont];
+        }
+        strcat(bin_aux, auxCase);
+        for (cont2 = 16; cont2 <= 32; cont2++) {
+            bin_aux[cont2] = bin[cont2-5];
+        }
+        printf ("Binário: %s\n", bin_aux);
+        printf ("Tamanho: %li\n\n", strlen(bin_aux));
+        fprintf(arq2, "%s\n", bin_aux);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BLEZ")) {
-        // Arrumar, ainda não sei como implementar o offset.
-        // Não está concatenando o registrador passado.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000110";
-        int n = 6;
-        int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
+        char auxCase[5] = "00000";
+        char bin_aux[32];
+        int numOp = 2, cont, cont2;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        strcat(bin, "00000");
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
-        
+        auxCase[5] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 1);
+        for (cont = 0; cont < 11; cont++) {
+            bin_aux[cont] = bin[cont];
+        }
+        strcat(bin_aux, auxCase);
+        for (cont2 = 16; cont2 <= 32; cont2++) {
+            bin_aux[cont2] = bin[cont2-5];
+        }
+        printf ("Binário: %s\n", bin_aux);
+        printf ("Tamanho: %li\n\n", strlen(bin_aux));
+        fprintf(arq2, "%s\n", bin_aux);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BLTZ")) {
-        // Arrumar, ainda não sei como implementar o offset.
-        // Não está concatenando o registrador passado.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000001";
-        int n = 6;
-        int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
+        char auxCase[5] = "00000";
+        char bin_aux[32];
+        int numOp = 2, cont, cont2;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        strcat(bin, "00000");
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);
-        
+        auxCase[5] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 1);
+        for (cont = 0; cont < 11; cont++) {
+            bin_aux[cont] = bin[cont];
+        }
+        strcat(bin_aux, auxCase);
+        for (cont2 = 16; cont2 <= 32; cont2++) {
+            bin_aux[cont2] = bin[cont2-5];
+        }        
+        printf ("Binário: %s\n", bin_aux);
+        printf ("Tamanho: %li\n\n", strlen(bin_aux));
+        fprintf(arq2, "%s\n", bin_aux);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "BNE")) {
-        // Arrumar, ainda não sei como implementar o offset.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000101";
-        int n = 6;
-        int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
-        strcpy(bin, instruBin);
-        //bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-        j = get_data("LU");
-        buffer = decimal_to_binary_16bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        printf("oi");
-        ////bintohex(bin, hex);
-        ////printf("%s", hex);
-        //fprintf(arq, "%s\n", bin);    
-        //fputs(bin, arq);
-        //fputs("\n", arq);    
-        
-    }
-    else if (!strcmp(aux, "DIV")) {
-        char instruBin[6] = "000000";
-        int n = 6;
-        int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
+        int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 1);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
+    }
+    else if (!strcmp(aux, "DIV")) {
+        arq2 = fopen("arquivo_saida", "a");
+        char instruBin[6] = "000000";
+        int numOp = 2;
+        strcpy(bin, instruBin);
+        bin[6] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "0000000000");
         strcat(bin, "011010");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "J")) {
-        // Ainda não sei o que é instr_index
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000010";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
-        //bin[6] = '\0';
-        j = get_data("LU");
-        buffer = decimal_to_binary_26bits(j);
-        strcat(bin, buffer);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        bin[6] = '\0';
+        split_op(numOp, palavra, i, bin, 26, 1);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "JR")) {
-        // Ainda não sei o que é instr_index
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
-        //bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        bin[6] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "00000");
         strcat(bin, "00100"); //hint 4, pag 332
         //Implementar o que é o hint.
         strcat(bin, "001001");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "LUI")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "001111";
-        int n = 6;
         int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
         strcat(bin, "00000");
-        split_op(numOp, palavra, i, bin, n, 16);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 16, 0);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MADD")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "011100";
-        int n = 6;
         int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "00000");
         strcat(bin, "000000");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MFHI")) {
-        // Arrumar, provavelmente é o caso quando for só 1 operador.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        strcat(bin, "000000");
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
+        strcat(bin, "0000000000");
         strcat(bin, "00000");
         strcat(bin, "010000");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MFLO")) {
-        // Arrumar, provavelmente é o caso quando for só 1 operador.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "0000000000");
-        split_op(numOp, palavra, i, bin, n, 5);
         strcat(bin, "00000");
         strcat(bin, "010010");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MOVN")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "001011");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        printf("%s", bin);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MOVZ")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "001010");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        printf("%s", bin);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MSUB")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "011100";
-        int n = 6;
         int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "00000");
         strcat(bin, "000100");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        printf("%s", bin);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MTHI")) {
-        // Arrumar 1 op.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "000000000000000");
         strcat(bin, "010001");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        printf("%s", bin);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MTLO")) {
-        // Arrumar 1 op.
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 1;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
-
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "000000000000000");
         strcat(bin, "010011");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        printf("%s", bin);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MUL")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "011100";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "000010");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "MULT")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "011100";
-        int n = 6;
         int numOp = 2;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "0000000000");
         strcat(bin, "011000");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "NOP")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 0;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
         strcat(bin, "00000");
@@ -847,294 +709,172 @@ void tradutor(char *palavra, FILE *arq) {
         strcat(bin, "00000");
         strcat(bin, "00000");
         strcat(bin, "000000");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "NOR")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100111");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "OR")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100101");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "ORI")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "001101";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 16);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 16, 0);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "SUB")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100010");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "XOR")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "000000";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 5);
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "100110");
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else if (!strcmp(aux, "XORI")) {
+        arq2 = fopen("arquivo_saida", "a");
         char instruBin[6] = "001110";
-        int n = 6;
         int numOp = 3;
-        char hex[8];
-        memset(hex, '\0', 8);
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, n, 16);
-        printf ("%s\n", bin);
-        printf ("%li\n", strlen(bin));
-        //bintohex(bin, hex);
-        //printf("%s", hex);
-        fprintf(arq, "%s\n", bin);
-        
+        split_op(numOp, palavra, i, bin, 16, 0);
+        printf ("Binário: %s\n", bin);
+        printf ("Tamanho: %li\n\n", strlen(bin));
+        fprintf(arq2, "%s\n", bin);
+        fclose(arq2);
     }
     else {
-        printf("Label");
+        printf("Instrução não implementada.");
     }
 }
 
-int alimenta_hash(char* palavra, int count){
-    //FILE *arq;
-    //arq = fopen("arquivo_saida", "w");
-    char ch;
-    char bin[32];
-    int i = 0, a;
-    char aux[strlen(palavra)];
-    for (i; ch != ' '; i++) {
-        ch = palavra[i];
-        aux[i] = ch;
-    }
-    ch = 'a';
-    aux[i-1] = '\0';
-    //printf ("%s ", aux);
-    // ADD 4, ADDI 4, AND 4, ANDI 4, B 2, BEQ 4, BEQL 4, BGEZ 3, BGTZ 3, BLEZ 3, BLTZ 3, BNE 4, DIV 3, J 2, JR 2 ,
-    //LUI 3, MADD 3, MFHI 2, MFLO 2, MOVN 4, MOVZ 4, MSUB 3, MTHI 2, MTLO 2, MUL 4, MULT 3, NOP 1, NOR 4 , OR 4, ORI 4, SUB 4, XOR 4, XORI 4
-    if (!strcmp(aux, "ADD")) {
-        return 1;
-    } 
-    else if (!strcmp(aux, "ADDI")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "AND")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "ANDI")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "B")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BEQ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BEQL")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BGEZ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BGTZ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BLEZ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BLTZ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "BNE")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "DIV")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "J")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "JR")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "LUI")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MADD")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MFHI")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MFLO")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MOVN")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MOVZ")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MSUB")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MTHI")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MTLO")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MUL")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "MULT")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "NOP")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "NOR")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "OR")) {
-        return 1;        
-    }
-    else if (!strcmp(aux, "ORI")) {
-        return 1;        
-    }
-    else if (!strcmp(aux, "SUB")) {
-        return 1;
-        
-    }
-    else if (!strcmp(aux, "XOR")) {
-        return 1;
-    }
-    else if (!strcmp(aux, "XORI")) {
-        return 1;
-    }
-    else {
-        printf("%s\n", aux);
-        insert_label(aux, count*4);
-        get_data(aux);
-        return 2;
-    }
-}
-
-void busca_label2(char arquivo_binario[]) {
+void find_label(char arquivo_binario[]) {
     FILE *arq;
-    arq = fopen(arquivo_binario, "r");
     int i = 0;
-    char aux[24];
-    while(fgets(aux, 24, arq) != NULL) {
-        aux[strcspn(aux, "\r\n")] = 0;
-        if (alimenta_hash(aux, i) == 2){
-            i = i;
-        } else{
-            i++;
-        }
-    }
-}
-
-void busca(char arquivo_binario[]) {
-    FILE *arq;
-    FILE *arq2;
-    arq2 = fopen("arquivo_saida", "w");
+    int TAM_AUX;
     char aux[24];
     memset(aux, '\0', 24);
-    int a;
     arq = fopen(arquivo_binario, "r");
-    //fseek(arq, 0, SEEK_SET);
-    while(fgets(aux, 24, arq) != NULL) {
-        aux[strcspn(aux, "\r\n")] = 0;
-        printf("\n%s\n", aux);
-        tradutor(aux, arq2);
+    if (arq != NULL) {
+        while(fgets(aux, 24, arq) != NULL) {
+            aux[strcspn(aux, "\r\n")] = 0;
+            TAM_AUX = strlen(aux);
+            if (aux[TAM_AUX-1] == ':') {
+                insert_label(aux, i*4);
+                printf("%s -> %d\n\n", aux, get_data(aux));
+            } else {
+                i++;
+            }
+        }
+    } else {
+        perror("Falha ao abrir o arquivo");
+        exit(EXIT_FAILURE);
     }
     fclose(arq);
-    fclose(arq2);
+}
+
+void init_search(char arquivo_binario[]) {
+    FILE *arq;
+    //FILE *arq2;
+    char aux[24];
+    int TAM_AUX;
+    memset(aux, '\0', 24);
+    arq = fopen(arquivo_binario, "r");
+    //arq2 = fopen("arquivo_saida", "w+");
+    if (arq != NULL) {
+        fseek(arq, 0, SEEK_SET);
+        while(fgets(aux, 24, arq) != NULL) {
+            aux[strcspn(aux, "\r\n")] = 0;
+            TAM_AUX = strlen(aux);
+            if (aux[TAM_AUX-1] == ':') {
+                continue;
+            } else {
+                printf("Instrução: %s\n", aux);
+                tradutor(aux);
+            }
+        }
+        fclose(arq);
+        //fclose(arq2);
+    } 
+    else {
+        perror("Falha ao abrir o arquivo");
+        exit(EXIT_FAILURE);
+    }
 }
 
 
 
 int main () {
-    inicializar_registradores();
-    init_barramento();
+    //inicializar_registradores();
+    //init_barramento();
     init_hash();
-    inicia(12);
-    init_unidade_func();
+    //inicia(12);
+    //init_unidade_func();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
     //tradutor(arquivo_binario);
-    busca_label2("arquivo_assembly");
-    busca("arquivo_assembly");
-    alimenta_memoria("arquivo_saida");
-    print();
+    //find_label("aritm_1");
+    find_label("final_1");
+    // Teste 1) Tradução de todas as operações sem ser os branchs.
+    //init_search("aritm_1");
+    // Teste 2) Tradução de todas as operações de branch.
+    init_search("final_1");
+    // Teste 3) Tradução de todas operações.
+    //init_search("all_1");
+
+    //alimenta_memoria("arquivo_saida");
+    //print();
     return 0;
 }
-
