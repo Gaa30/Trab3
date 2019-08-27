@@ -6,13 +6,14 @@
 #include "definitions.h"
 
 typedef struct{
-  int Qi, valor;
+  int Qi;
+  size_t valor;
 }Registrador;
 
 Registrador banco_registradores[34]; //32 por padrão + LO E HI
 Registrador buffer[34];
 
-Registrador PC, IR, NPC; //Program Counter, Instruction Register e Next program Counter
+Registrador PC, IR, OPC; //Program Counter, Instruction Register e Next program Counter
 
 void inicializar_registradores();
 

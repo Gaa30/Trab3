@@ -161,6 +161,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
@@ -184,6 +186,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[0] = BUS[0].rt;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = reg_get_status(unidades_funcionais[i].source_register[0]);
@@ -214,6 +218,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
@@ -242,6 +248,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
@@ -270,6 +278,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[0] = BUS[0].rt;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = reg_get_status(unidades_funcionais[i].source_register[0]);
@@ -300,6 +310,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = FLAG_READY;
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
@@ -326,6 +338,7 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            unidades_funcionais[i].source_register[0] = BUS[0].rt; 
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = FLAG_READY;
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
@@ -508,6 +521,8 @@ int issue(){
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
+                            OPC.valor = PC.valor;
+                            PC.valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
                             unidades_funcionais[i].ready[0] = unidades_funcionais[i].q[0];
@@ -983,6 +998,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
@@ -1011,6 +1028,8 @@ int issue(){
                             unidades_funcionais[i].instr = BUS[0].instrucao;
                             unidades_funcionais[i].instr_type = BUS[0].type;
                             unidades_funcionais[i].dest_register = BUS[0].rd;
+                            OPC.valor = PC.valor;
+                            PC.valor = unidades_funcionais[i].dest_register;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
                             unidades_funcionais[i].q[0] = FLAG_READY;
                             unidades_funcionais[i].q[1] = reg_get_status(unidades_funcionais[i].source_register[1]);
@@ -1051,8 +1070,8 @@ int read_operands(){
 }
 
 void execute(){
-    int low_order_zero;
     int i;
+    int lui;
     for(i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
         if(unidades_funcionais[i].cycle_counter < unidades_funcionais[i].cycles_needed){
             if(unidades_funcionais[i].cycle_counter == 0){
@@ -1080,7 +1099,7 @@ void execute(){
                         }else if (unidades_funcionais[i].instr == ADDI){
                             buffer[unidades_funcionais[i].dest_register].valor = ula_somador(unidades_funcionais[i].source_register[0], banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                         }else{
-                            long int resultado;
+                            size_t resultado;
                             resultado = ula_mult(unidades_funcionais[i].source_register[0],unidades_funcionais[i].source_register[1]);
                             buffer[unidades_funcionais[i].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
                             buffer[REG_HI].valor = resultado >> 32;     
@@ -1090,20 +1109,24 @@ void execute(){
                         switch(unidades_funcionais[i].instr_type){
                             case REGIMM:
                                 switch(unidades_funcionais[i].instr){
-                                    /*case BGEZ:
+                                    case BGEZ:
                                         if(buffer[unidades_funcionais[i].source_register[1]].valor >= 0){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
                                     break;
                                     case BLTZ:
                                         if(buffer[unidades_funcionais[i].source_register[1]].valor < 0){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
-                                    break;*/
+                                    break;
                                 }
                             break;
                             case SPECIAL:
@@ -1111,9 +1134,10 @@ void execute(){
                                     case AND:
                                         buffer[unidades_funcionais[i].dest_register].valor = ula_and(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                     break;
-                                   /* case JR:
-                                    //
-                                   */ case MFHI:
+                                    case JR:
+                                        unidades_funcionais[i].instr_valida = TRUE;
+                                        PC.valor = PC.valor;
+                                    case MFHI:
                                         buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[REG_HI].valor;
                                     break;
                                     case MFLO:
@@ -1166,13 +1190,15 @@ void execute(){
                                     case ANDI:
                                         buffer[unidades_funcionais[i].dest_register].valor = ula_and(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                     break;
-                                    /*case B || BEQ:
+                                    case B || BEQ:
                                         if (unidades_funcionais[i].instr == BEQ){
                                             int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                             if(verifica == 1){
-                                                //faz a parte do pulo;
+                                                unidades_funcionais[i].instr_valida = TRUE;
+                                                PC.valor = PC.valor;
                                             }else{
                                                 unidades_funcionais[i].instr_valida = FALSE;
+                                                PC.valor = OPC.valor;
                                             }
                                         }else{
                                             unidades_funcionais[i].instr_valida = TRUE;
@@ -1181,39 +1207,48 @@ void execute(){
                                     case BEQL:
                                         int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                         if(verifica == 1){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
                                     break;
                                     case BGTZ:
                                         if(banco_registradores[unidades_funcionais[i].source_register[1]].valor > 0){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
                                     break;
                                     case BLEZ:
                                         if(banco_registradores[unidades_funcionais[i].source_register[1]].valor <= 0){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
                                     break;
                                     case BNE:
                                         int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                         if(verifica != 1){
-                                            //faz a parte do pulo;
+                                            unidades_funcionais[i].instr_valida = TRUE;
+                                            PC.valor = PC.valor;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
+                                            PC.valor = OPC.valor;
                                         }
                                     break;
                                     case J:
-                                        //PC  PCGPRLEN-1..28 || instr_index || 02
-                                    break;*/
+                                        unidades_funcionais[i].instr_valida = TRUE;
+                                        PC.valor = PC.valor;
+                                    break;
                                     case LUI:
-                                        low_order_zero = 00000000000000000000000000000000;
-                                        buffer[unidades_funcionais[i].dest_register].valor = low_order_zero;
+                                        lui = ula_shiftleft(unidades_funcionais[i].source_register[0], 16);
+                                        buffer[unidades_funcionais[i].dest_register].valor = lui;
                                     break;
                                     case ORI:
                                         buffer[unidades_funcionais[i].source_register[0]].valor = ula_or(banco_registradores[unidades_funcionais[i].source_register[1]].valor, unidades_funcionais[i].dest_register);
@@ -1262,6 +1297,7 @@ void write_back(unidade_func* unidades){
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].Res = FLAG_VAZIO;
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].Res11 = FLAG_VAZIO;
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].cycle_counter = FLAG_VAZIO;
+            BUS[3].lista_UF_prontas[i] = FLAG_VAZIO;
         }
     }
 

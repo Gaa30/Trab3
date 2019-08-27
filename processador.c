@@ -266,7 +266,7 @@ void decodificacao(){
                     instrucao->type = DEFAULT;
                     instrucao->operation = LUI;
                     instrucao->rd = rd >> 16 &11111;
-                    instrucao->rt = FLAG_VAZIO;
+                    instrucao->rt = rt &1111111111111111;
                     instrucao->rs = FLAG_VAZIO;
                 break;
                 case ORI:
