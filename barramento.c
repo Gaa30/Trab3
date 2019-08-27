@@ -33,7 +33,7 @@ void add_info_barramento(int opcode, int type, int instrucao, int valida, int un
 }
 
 int verifica_barramento(int pos){
-    if(BUS[pos].opcode == FLAG_VAZIO && BUS[pos].instrucao == FLAG_VAZIO && BUS[pos].type == FLAG_VAZIO && BUS[pos].valida == FLAG_VAZIO && BUS[pos].unidade_func == FLAG_VAZIO && BUS[pos].rs == FLAG_VAZIO && BUS[pos].rt == FLAG_VAZIO && BUS[pos].rd == FLAG_VAZIO){
+    if(BUS[pos].instrucao == FLAG_VAZIO){
         return TRUE;
     }else{
         return FALSE;
@@ -41,14 +41,14 @@ int verifica_barramento(int pos){
 }
 
 void remove_barramento(int pos){
-    BUS[pos].opcode == FLAG_VAZIO;
-    BUS[pos].instrucao == FLAG_VAZIO;
-    BUS[pos].type == FLAG_VAZIO;
-    BUS[pos].valida == FLAG_VAZIO;
-    BUS[pos].unidade_func == FLAG_VAZIO;
-    BUS[pos].rs == FLAG_VAZIO;
-    BUS[pos].rt == FLAG_VAZIO;
-    BUS[pos].rd == FLAG_VAZIO;
+   // BUS[pos].opcode = FLAG_VAZIO;
+    BUS[pos].instrucao = FLAG_VAZIO;
+   // BUS[pos].type = FLAG_VAZIO;
+   // BUS[pos].valida = FLAG_VAZIO;
+   // BUS[pos].unidade_func = FLAG_VAZIO;
+   // BUS[pos].rs = FLAG_VAZIO;
+   // BUS[pos].rt = FLAG_VAZIO;
+   // BUS[pos].rd = FLAG_VAZIO;
 }
 
 int verifica_all_barramentos(){

@@ -47,7 +47,7 @@ unidade_func* init_unidade_func(){
         unidades_funcionais[i].instr_valida = FLAG_VAZIO;
         unidades_funcionais[i].Res = FLAG_VAZIO;
         unidades_funcionais[i].Res11 = FLAG_VAZIO;
-        unidades_funcionais[i].cycle_counter = FLAG_VAZIO;
+        unidades_funcionais[i].cycle_counter = 0;
     }
     for (int i = 0; i<QUANT_UF_MUL; i++){
         unidades_funcionais[i].unidade_func_type = UF_MUL_CODE;
@@ -64,20 +64,38 @@ unidade_func* init_unidade_func(){
     return unidades_funcionais;
 }
 
+void print_UF(int pos){
+    printf("\n\nUF TYPE : %d\n\n", unidades_funcionais[pos].unidade_func_type);
+    printf("UF busy : %d\n", unidades_funcionais[pos].busy);
+    printf("UF RES1: %d\n",unidades_funcionais[pos].Res);
+    printf("UF RES2: %d\n",unidades_funcionais[pos].Res11);
+    printf("UF operacao: %d\n",unidades_funcionais[pos].operacao);
+    printf("UF instrucao: %d\n",unidades_funcionais[pos].instr);
+    printf("UF rd: %d\n",unidades_funcionais[pos].dest_register);
+    printf("UF rs: %d\n",unidades_funcionais[pos].source_register[1]);
+    printf("UF rt: %d\n",unidades_funcionais[pos].source_register[0]);
+    printf("UF q0 e q1: %d\n",unidades_funcionais[pos].q[0]);
+    printf("UF r0 e r1: %d\n",unidades_funcionais[pos].q[1]);
+    printf("UF cycles needed: %d\n",unidades_funcionais[pos].cycles_needed);
+    printf("UF counter : %d\n",unidades_funcionais[pos].cycle_counter);
+}
 //ISSUE TA PRONTA
 int issue(){
+
     int unidade_funcional_code;
-    int i;
+    int i = 0;
     int checkB1, checkB2;
     switch(BUS[0].type){
         case DEFAULT:
             switch(BUS[0].opcode){
                 case ADDI:
+                    printf("\n\n ADDI UF\n\n");
                     unidade_funcional_code = UF_ADD_CODE;
                     i = INIT_POS_ADD;
                     while(unidades_funcionais[i].busy != FLAG_READY && i < INIT_POS_INT){
                         i++;
                     }
+                    //printf("\nOLHA O I aqui %d\n", i);
                     if(unidades_funcionais[i].unidade_func_type == UF_ADD_CODE){
                         unidades_funcionais[i].busy = FLAG_BUSY;
                         if(unidades_funcionais[i].Res == FLAG_VAZIO && unidades_funcionais[i].Res11 == FLAG_VAZIO){
@@ -96,7 +114,9 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
-
+                            print_UF(i);
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -126,6 +146,8 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i);       
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);                                                 
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -165,6 +187,8 @@ int issue(){
                             unidades_funcionais[i].ready[1] = unidades_funcionais[i].q[1];
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -195,6 +219,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -223,6 +249,8 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -251,6 +279,8 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -281,6 +311,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -307,6 +339,8 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 1;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -334,6 +368,8 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 2;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -364,6 +400,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -394,6 +432,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -428,6 +468,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -458,6 +500,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -489,6 +533,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -517,6 +563,8 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i); 
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -543,6 +591,8 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 2;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -569,6 +619,8 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 2;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -599,6 +651,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -629,6 +683,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -659,6 +715,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -689,6 +747,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -720,6 +780,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -745,6 +807,8 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 1;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -775,6 +839,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -805,6 +871,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -835,6 +903,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -865,6 +935,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -886,7 +958,7 @@ int issue(){
                             EMITIDA = TRUE;
                             unidades_funcionais[i].operacao = BUS[0].opcode;
                             unidades_funcionais[i].instr = BUS[0].instrucao;
-                            unidades_funcionais[i].instr_type = BUS[0].type;
+                            unidades_funcionais[i].instr_type = BUS[0].type;        
                             unidades_funcionais[i].dest_register = BUS[0].rd;
                             unidades_funcionais[i].source_register[0] = BUS[0].rt;
                             unidades_funcionais[i].source_register[1] = BUS[0].rs;
@@ -900,6 +972,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -931,6 +1005,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -961,6 +1037,8 @@ int issue(){
                             unidades_funcionais[i].Res = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[0]].Qi);
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -993,6 +1071,8 @@ int issue(){
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
                             BUS[0].unidade_func = i;
+                            next(1);
+                            remove_barramento(0);
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -1020,7 +1100,9 @@ int issue(){
                             unidades_funcionais[i].cycles_needed = 2;
                             reg_change_status(unidades_funcionais[i].dest_register, i);    
                             unidades_funcionais[i].Res11 = reg_get_UF(banco_registradores[unidades_funcionais[i].source_register[1]].Qi);
-                            BUS[0].unidade_func = i;                        
+                            BUS[0].unidade_func = i; 
+                            next(1);
+                            remove_barramento(0);                       
                         }
                     }else{
                         EMITIDA = FALSE;
@@ -1029,84 +1111,139 @@ int issue(){
             }
         break;
     }
-    if(EMITIDA == TRUE){
-        next(1);
-        remove_barramento(0);
-    }
+   /* for(int k = 0; k<TAM_UNIDADE_FUNC; k++){
+        printf("\n\n UNIDADES FUNCIONAL \n\n");
+        printf("func type = %d\n", unidades_funcionais[k].unidade_func_type);
+        printf("busy = %d\n", unidades_funcionais[k].busy);
+        printf("operacao = %d\n", unidades_funcionais[k].operacao);
+        printf("instrucao = %d\n", unidades_funcionais[k].instr);
+        printf("instr type = %d\n", unidades_funcionais[k].instr_type);
+        printf("dest_reg = %d\n", unidades_funcionais[k].dest_register);
+        printf("source_Reg = %d\n", unidades_funcionais[k].source_register[0]);
+        printf("source_reg = %d\n", unidades_funcionais[k].source_register[1]);
+        printf("q0 = %d\n", unidades_funcionais[k].q[0]);
+        printf("q1 = %d\n", unidades_funcionais[k].q[1]);
+        printf("r0 = %d\n", unidades_funcionais[k].ready[0]);
+        printf("r1 = %d\n", unidades_funcionais[k].ready[1]);
+        printf("cycles needed = %d\n", unidades_funcionais[k].cycles_needed);
+    }*/
+
 }
 
 int read_operands(){
     int unidadefuncional = BUS[1].unidade_func;
     if(unidades_funcionais[unidadefuncional].dest_register == unidades_funcionais[unidadefuncional].source_register[0]){
         unidades_funcionais[unidadefuncional].ready[0] = FLAG_READY;
+        if(unidades_funcionais[unidadefuncional].ready[0] == FLAG_READY && unidades_funcionais[unidadefuncional].ready[1] == FLAG_READY){
+            unidades_funcionais[unidadefuncional].ready[0] = FLAG_BUSY;
+            unidades_funcionais[unidadefuncional].ready[1] = FLAG_BUSY;
+            next(2);
+            remove_barramento(1);
+        }
     }else if(unidades_funcionais[unidadefuncional].dest_register == unidades_funcionais[unidadefuncional].source_register[1]){
         unidades_funcionais[unidadefuncional].ready[1] = FLAG_READY;
+        if(unidades_funcionais[unidadefuncional].ready[0] == FLAG_READY && unidades_funcionais[unidadefuncional].ready[1] == FLAG_READY){
+            unidades_funcionais[unidadefuncional].ready[0] = FLAG_BUSY;
+            unidades_funcionais[unidadefuncional].ready[1] = FLAG_BUSY;
+            next(2);
+            remove_barramento(1);
+        }
     }
-    if(unidades_funcionais[unidadefuncional].ready[0] == FLAG_READY && unidades_funcionais[unidadefuncional].ready[1] == FLAG_READY){
+    else if(unidades_funcionais[unidadefuncional].ready[0] == FLAG_READY && unidades_funcionais[unidadefuncional].ready[1] == FLAG_READY){
         unidades_funcionais[unidadefuncional].ready[0] = FLAG_BUSY;
         unidades_funcionais[unidadefuncional].ready[1] = FLAG_BUSY;
         next(2);
+        remove_barramento(1);
     }else{
         return 0;
     }
-    remove_barramento(1);
-    return 1;
 }
 
 void execute(){
     int verifica;
     int i;
     int lui;
+    int rd;
+    int rs;
+    int rt;
     for(i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
+        //print_UF(i);
+        int rt = unidades_funcionais[i].source_register[0];
+        int rs = unidades_funcionais[i].source_register[1];
+        int rd = unidades_funcionais[i].dest_register;
         if(unidades_funcionais[i].cycle_counter < unidades_funcionais[i].cycles_needed){
+            printf("\nENTROU PT1\n");
             if(unidades_funcionais[i].cycle_counter == 0){
+                printf("\nENTROU PT2\n");
+                printf("\nVALOR UF : %d\n", unidades_funcionais[i].unidade_func_type);
+                printf("\nVALOR INSTR : %d\n", unidades_funcionais[i].operacao);
                 switch (unidades_funcionais[i].unidade_func_type){
                     case UF_MUL_CODE:
                         //MUL E MULT
-                        if(unidades_funcionais[i].instr == MUL){
-                            buffer[unidades_funcionais[i].dest_register].valor = ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor,banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                        if(unidades_funcionais[i].operacao == MUL){
+                            printf("ENTROU MUL");
+                            banco_registradores[rd].valor = ula_mult(banco_registradores[rt].valor,banco_registradores[rs].valor);
+                            banco_registradores[rd].Qi = FLAG_READY;
+                            unidades_funcionais[i].cycle_counter++;
                         }else{//falta checar overflow
                             size_t resultado;
-                            resultado = ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor,banco_registradores[unidades_funcionais[i].source_register[1]].valor);
-                            buffer[unidades_funcionais[i].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
-                            buffer[REG_HI].valor = resultado >> 32;        
+                            resultado = ula_mult(banco_registradores[rt].valor,banco_registradores[rs].valor);
+                            banco_registradores[rd].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
+                            banco_registradores[rd].Qi = FLAG_READY;
+                            banco_registradores[REG_HI].valor = resultado >> 32;
+                            banco_registradores[REG_HI].Qi = FLAG_READY;        
+                            unidades_funcionais[i].cycle_counter++;
                         }
                     break;
                     case UF_DIV_CODE:
                         //DIV
-                        buffer[unidades_funcionais[i].dest_register].valor = ula_div(banco_registradores[unidades_funcionais[i].source_register[1]].valor,banco_registradores[unidades_funcionais[i].source_register[0]].valor);
-                        buffer[REG_HI].valor = ula_mod(banco_registradores[unidades_funcionais[i].source_register[1]].valor,banco_registradores[unidades_funcionais[i].source_register[0]].valor);
+                        banco_registradores[rd].valor = ula_div(banco_registradores[rs].valor,banco_registradores[rt].valor);
+                        banco_registradores[rd].Qi = FLAG_READY;
+                        banco_registradores[REG_HI].valor = ula_mod(banco_registradores[rs].valor,banco_registradores[rt].valor);
+                        banco_registradores[REG_HI].Qi = FLAG_READY;
+                        unidades_funcionais[i].cycle_counter++;
                     break;
                     case UF_ADD_CODE:
                         //ADD, ADDI, MADD (verificar o instruction type)
-                        if(unidades_funcionais[i].instr == ADD){
-                            buffer[unidades_funcionais[i].dest_register].valor = ula_somador(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
-                        }else if (unidades_funcionais[i].instr == ADDI){
-                            buffer[unidades_funcionais[i].dest_register].valor = ula_somador(unidades_funcionais[i].source_register[0], banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                        if(unidades_funcionais[i].operacao == ADD){
+                            banco_registradores[rd].valor = ula_somador(banco_registradores[rt].valor, banco_registradores[rs].valor);
+                            banco_registradores[rd].Qi = FLAG_READY;
+                            unidades_funcionais[i].cycle_counter++;
+                        }else if (unidades_funcionais[i].operacao == ADDI){
+                            //printf("ENTROU NO ADDI");
+                            banco_registradores[rd].valor = ula_somador(rt, banco_registradores[rs].valor);
+                            banco_registradores[rd].Qi = FLAG_READY;
+                            //printf("banco_registradores : %ld", banco_registradores[rd].valor);
+                            unidades_funcionais[i].cycle_counter++;
                         }else{
                             size_t resultado;
-                            resultado = ula_mult(unidades_funcionais[i].source_register[0],unidades_funcionais[i].source_register[1]);
-                            buffer[unidades_funcionais[i].dest_register].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
-                            buffer[REG_HI].valor = resultado >> 32;     
+                            resultado = ula_mult(rt,rs);
+                            banco_registradores[rd].valor = ula_and(resultado, 0000000000000000000000000000000011111111111111111111111111111111);
+                            banco_registradores[rd].Qi = FLAG_READY;
+                            banco_registradores[REG_HI].valor = resultado >> 32;     
+                            banco_registradores[REG_HI].Qi = FLAG_READY;
+                            unidades_funcionais[i].cycle_counter++;
                         }
                     break;
                     case UF_INT_CODE:
                         switch(unidades_funcionais[i].instr_type){
                             case REGIMM:
-                                switch(unidades_funcionais[i].instr){
+                                switch(unidades_funcionais[i].operacao){
                                     case BGEZ:
-                                        if(buffer[unidades_funcionais[i].source_register[1]].valor >= 0){
+                                        if(banco_registradores[rs].valor >= 0){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
                                         }
                                     break;
                                     case BLTZ:
-                                        if(buffer[unidades_funcionais[i].source_register[1]].valor < 0){
+                                        if(banco_registradores[rs].valor < 0){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
@@ -1115,69 +1252,99 @@ void execute(){
                                 }
                             break;
                             case SPECIAL:
-                                switch(unidades_funcionais[i].instr){
+                                switch(unidades_funcionais[i].operacao){
                                     case AND:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_and(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        banco_registradores[rd].valor = ula_and(banco_registradores[rt].valor, banco_registradores[rs].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case JR:
                                         unidades_funcionais[i].instr_valida = TRUE;
-                                        PC.valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
+                                        PC.valor = banco_registradores[rs].valor;
+                                        unidades_funcionais[i].cycle_counter++;
                                     case MFHI:
-                                        buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[REG_HI].valor;
+                                        banco_registradores[rd].valor = banco_registradores[REG_HI].valor;
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case MFLO:
-                                        buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[REG_LO].valor;
+                                        banco_registradores[rd].valor = banco_registradores[REG_LO].valor;
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case MOVN:
-                                        if(buffer[unidades_funcionais[i].source_register[0]].valor != 0){
-                                            buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
+                                        if(banco_registradores[rt].valor != 0){
+                                            banco_registradores[rd].valor = banco_registradores[rs].valor;
+                                            banco_registradores[rd].Qi = FLAG_READY;
+                                            unidades_funcionais[i].cycle_counter++;
                                         } else{
                                             printf("Nao foi possivel mover\n");//verificar
                                         }
                                     break;
                                     case MOVZ:
-                                        if(buffer[unidades_funcionais[i].source_register[0]].valor == 0){
-                                            buffer[unidades_funcionais[i].dest_register].valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
+                                        if(banco_registradores[rt].valor == 0){
+                                            banco_registradores[rd].valor = banco_registradores[rs].valor;
+                                            banco_registradores[rd].Qi = FLAG_READY;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }
                                     break;
                                     case MTHI:
-                                        buffer[REG_HI].valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor; 
+                                        banco_registradores[REG_HI].valor = banco_registradores[rs].valor; 
+                                        banco_registradores[REG_HI].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case MTLO:
-                                        buffer[REG_LO].valor = banco_registradores[unidades_funcionais[i].source_register[1]].valor;
+                                        banco_registradores[REG_LO].valor = banco_registradores[rs].valor;
+                                        banco_registradores[REG_LO].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case NOP:
-                                        buffer[unidades_funcionais[i].dest_register].valor = 0;
+                                        banco_registradores[rd].valor = 0;
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     case NOR:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_nor(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        banco_registradores[rd].valor = ula_nor(banco_registradores[rt].valor, banco_registradores[rs].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case OR:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_or(banco_registradores[unidades_funcionais[i].source_register[1]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
+                                        banco_registradores[rd].valor = ula_or(banco_registradores[rs].valor, banco_registradores[rt].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case SUB:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_subtrator(banco_registradores[unidades_funcionais[i].source_register[1]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
+                                        banco_registradores[rd].valor = ula_subtrator(banco_registradores[rs].valor, banco_registradores[rt].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case XOR:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_xor(banco_registradores[unidades_funcionais[i].source_register[i]].valor, banco_registradores[unidades_funcionais[i].source_register[0]].valor);
+                                        banco_registradores[rd].valor = ula_xor(banco_registradores[unidades_funcionais[i].source_register[i]].valor, banco_registradores[rt].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                 } 
                             break;                   
                             case SPECIAL2:
-                                switch(unidades_funcionais[i].instr){
+                                switch(unidades_funcionais[i].operacao){
                                     case MSUB:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor));
-                                        buffer[REG_HI].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor)) >> 32;
+                                        banco_registradores[rd].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[rt].valor, banco_registradores[rs].valor));
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        banco_registradores[REG_HI].valor = ula_subtrator(ula_or(banco_registradores[REG_HI].valor, banco_registradores[REG_LO].valor), ula_mult(banco_registradores[rt].valor, banco_registradores[rs].valor)) >> 32;
+                                        banco_registradores[REG_HI].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                 } 
                             break;               
-                            case DEFAULT:
-                                switch(unidades_funcionais[i].instr){
+                            case DEFAULT:                
+                                switch(unidades_funcionais[i].operacao){
                                     case ANDI:
-                                        buffer[unidades_funcionais[i].dest_register].valor = ula_and(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        banco_registradores[rd].valor = ula_and(banco_registradores[rt].valor, banco_registradores[rs].valor);
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case B || BEQ:
-                                        if (unidades_funcionais[i].instr == BEQ){
-                                            verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        if (unidades_funcionais[i].operacao == BEQ){
+                                            verifica = ula_div(banco_registradores[rt].valor, banco_registradores[rs].valor);
                                             if(verifica == 1){
                                                 unidades_funcionais[i].instr_valida = TRUE;
                                                 PC.valor = PC.valor;
@@ -1187,66 +1354,82 @@ void execute(){
                                             }
                                         }else{
                                             unidades_funcionais[i].instr_valida = TRUE;
+                                            unidades_funcionais[i].cycle_counter++;
+                                            PC.valor = PC.valor;
                                         }
                                     break;
                                     case BEQL:
-                                        verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        verifica = ula_div(banco_registradores[rt].valor, banco_registradores[rs].valor);
                                         if(verifica == 1){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }
                                     break;
                                     case BGTZ:
-                                        if(banco_registradores[unidades_funcionais[i].source_register[1]].valor > 0){
+                                        if(banco_registradores[rs].valor > 0){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }
                                     break;
                                     case BLEZ:
-                                        if(banco_registradores[unidades_funcionais[i].source_register[1]].valor <= 0){
+                                        if(banco_registradores[rs].valor <= 0){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }
                                     break;
                                     case BNE:
-                                        verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        verifica = ula_div(banco_registradores[rt].valor, banco_registradores[rs].valor);
                                         if(verifica != 1){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }else{
                                             unidades_funcionais[i].instr_valida = FALSE;
                                             PC.valor = OPC.valor;
+                                            unidades_funcionais[i].cycle_counter++;
                                         }
                                     break;
                                     case J:
                                         unidades_funcionais[i].instr_valida = TRUE;
                                         PC.valor = PC.valor;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case LUI:
-                                        lui = ula_shiftleft(unidades_funcionais[i].source_register[0], 16);
-                                        buffer[unidades_funcionais[i].dest_register].valor = lui;
+                                        lui = ula_shiftleft(rt, 16);
+                                        banco_registradores[rd].valor = lui;
+                                        banco_registradores[rd].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case ORI:
-                                        buffer[unidades_funcionais[i].source_register[0]].valor = ula_or(banco_registradores[unidades_funcionais[i].source_register[1]].valor, unidades_funcionais[i].dest_register);
+                                        banco_registradores[rt].valor = ula_or(banco_registradores[rs].valor, rd);
+                                        banco_registradores[rt].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                     case XORI:
-                                        buffer[unidades_funcionais[i].source_register[0]].valor = ula_xor(banco_registradores[unidades_funcionais[i].source_register[1]].valor, unidades_funcionais[i].dest_register);
+                                        banco_registradores[rt].valor = ula_xor(banco_registradores[rs].valor, rd);
+                                        banco_registradores[rt].Qi = FLAG_READY;
+                                        unidades_funcionais[i].cycle_counter++;
                                     break;
                                 } 
                             break;               
                         }
                     break;
                 }
-                unidades_funcionais[i].cycle_counter++;
             }else{
                 unidades_funcionais[i].cycle_counter++;
             }
@@ -1260,15 +1443,18 @@ void execute(){
 void write_back(unidade_func* unidades){
     for(int i = 0; i < TAM_UNIDADE_FUNC; i++){
         if(BUS[3].lista_UF_prontas[i] != FLAG_VAZIO){
-            banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor = buffer[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor;
-            banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].Qi = FLAG_VAZIO;
+            printf("LISTA UF PRONTAS\n");
+            printf("%d\n", BUS[3].lista_UF_prontas[i] );
+            //reg_write(buffer[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor, unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register);
+            //banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor = buffer[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].valor;
+            banco_registradores[unidades_funcionais[BUS[3].lista_UF_prontas[i]].dest_register].Qi = FLAG_READY;
             switch(unidades_funcionais[BUS[3].lista_UF_prontas[i]].operacao){
                 case MULT:
                 case DIV:
                 case MADD:
                 case MSUB:
                     banco_registradores[REG_HI].valor = buffer[REG_HI].valor;
-                    banco_registradores[REG_HI].Qi = FLAG_VAZIO;
+                    banco_registradores[REG_HI].Qi = FLAG_READY;
             }
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].busy = FLAG_READY;
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].operacao = FLAG_VAZIO;
@@ -1285,6 +1471,7 @@ void write_back(unidade_func* unidades){
             unidades_funcionais[BUS[3].lista_UF_prontas[i]].cycle_counter = FLAG_VAZIO;
             BUS[3].lista_UF_prontas[i] = FLAG_VAZIO;
         }
+        remove_barramento(3);
     }
 
     /* wait until (∀f {(Fj[f]≠Fi[FU] OR Rj[f]=No) AND (Fk[f]≠Fi[FU] OR Rk[f]=No)})

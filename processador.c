@@ -9,14 +9,14 @@ int getTipo(int instr){
         return SPECIAL;
     }
     else if(isSpecial == SPECIAL2){
-         //printf(" entrou no special2");
+        //printf(" entrou no special2");
         return SPECIAL2;
     }
     else if(isSpecial == REGIMM){
-         //printf(" entrou no regimm");
+        //printf(" entrou no regimm");
         return REGIMM;
     }else{
-         //printf(" entrou no defaul");
+        //printf(" entrou no defaul");
         return DEFAULT;
     }
 }
@@ -247,134 +247,136 @@ int getTipo(int instr){
 }*/
 
 //decodificacao do codigo da instrucao no IR, e coloca na fila
-void decodificacao(int pos){
+void decodificacao(){
     if(IR.valor == FLAG_VAZIO) return;
     int instr = IR.valor;
     int rt = instr;
+    //printf("rt %d\n", rt);
     int rs = instr;
+    //printf("rs %d\n", rs);
     int rd = instr;
+    //printf("rt %d\n", rd);
     int type = instr;
     //type = type >> 26;
     type = getTipo(instr);
-    printf("\nTIPO %d\n", type);
+    //printf("\nTIPO %d\n", type);
     int opcode = 0;
-    instruction * instrucao = (instruction *)malloc(sizeof(instruction));
-    instrucao->instr = instr;
+    Instrucao.instr = IR.valor;
     switch(type){
         case SPECIAL:
             opcode = instr &63;
             switch(opcode){
                 case ADD:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = ADD;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = ADD;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case AND:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = AND;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = AND;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case DIV:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = DIV;
-                    instrucao->rd = REG_LO;
-                    instrucao->rs = rs >> 16 &31;
-                    instrucao->rt = rt >> 21 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = DIV;
+                    Instrucao.rd = REG_LO;
+                    Instrucao.rs = rs >> 16 &31;
+                    Instrucao.rt = rt >> 21 &31;
                 break;
                 case JR:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = JR;
-                    instrucao->rd = FLAG_VAZIO;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = JR;
+                    Instrucao.rd = FLAG_VAZIO;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case MFHI:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MFHI;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = FLAG_VAZIO;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MFHI;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = FLAG_VAZIO;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case MFLO:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MFLO;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = FLAG_VAZIO;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MFLO;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = FLAG_VAZIO;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case MOVN:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MOVN;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MOVN;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case MOVZ:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MOVZ;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MOVZ;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case MTHI:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MTHI;
-                    instrucao->rd = REG_HI;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MTHI;
+                    Instrucao.rd = REG_HI;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case MTLO:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MTLO;
-                    instrucao->rd = REG_LO;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt =FLAG_VAZIO ;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MTLO;
+                    Instrucao.rd = REG_LO;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt =FLAG_VAZIO ;
                 break;
                 case MULT:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = MULT;
-                    instrucao->rd = REG_LO;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = MULT;
+                    Instrucao.rd = REG_LO;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case NOP:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = NOP;
-                    instrucao->rd = 0;
-                    instrucao->rs = 0;
-                    instrucao->rt = 0;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = NOP;
+                    Instrucao.rd = 0;
+                    Instrucao.rs = 0;
+                    Instrucao.rt = 0;
                 break;
                 case NOR:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = NOR;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = NOR;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case OR:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = OR;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = OR;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case SUB:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = SUB;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = SUB;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case XOR:
-                    instrucao->type = SPECIAL;
-                    instrucao->operation = XOR;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL;
+                    Instrucao.operation = XOR;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
             }
         break;
@@ -382,25 +384,25 @@ void decodificacao(int pos){
             opcode = instr &63;
             switch(opcode){
                 case MADD:
-                    instrucao->type = SPECIAL2;
-                    instrucao->operation = MADD;
-                    instrucao->rd = REG_LO;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL2;
+                    Instrucao.operation = MADD;
+                    Instrucao.rd = REG_LO;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
                 case MSUB:
-                    instrucao->type = SPECIAL2;
-                    instrucao->operation = MSUB;
-                    instrucao->rt = rt >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rd = REG_LO;
+                    Instrucao.type = SPECIAL2;
+                    Instrucao.operation = MSUB;
+                    Instrucao.rt = rt >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rd = REG_LO;
                 break;
                 case MUL:
-                    instrucao->type = SPECIAL2;
-                    instrucao->operation = MUL;
-                    instrucao->rd = rd >> 11 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt >> 16 &31;
+                    Instrucao.type = SPECIAL2;
+                    Instrucao.operation = MUL;
+                    Instrucao.rd = rd >> 11 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt >> 16 &31;
                 break;
             }
         break;
@@ -408,18 +410,18 @@ void decodificacao(int pos){
             opcode = instr >> 16 &31;
             switch(opcode){
                 case BGEZ:
-                    instrucao->type = REGIMM;
-                    instrucao->operation = BGEZ;
-                    instrucao->rd = rd &65535;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = REGIMM;
+                    Instrucao.operation = BGEZ;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case BLTZ:
-                    instrucao->type = REGIMM;
-                    instrucao->operation = BLTZ;
-                    instrucao->rd = rd &65535;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = REGIMM;
+                    Instrucao.operation = BLTZ;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
             }
         break;
@@ -427,162 +429,174 @@ void decodificacao(int pos){
             opcode = instr >> 26 &63;
             switch(opcode){
                 case ADDI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ADDI;
-                    instrucao->rd = rd >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt &65535;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = ADDI;
+                    Instrucao.rd = rd >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt &65535;
                 break;
                 case ANDI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ANDI;
-                    instrucao->rd = rd >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = rt &65535;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = ANDI;
+                    Instrucao.rd = rd >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = rt &65535;
                 break;
                 case B || BEQ:
-                    instrucao->type = DEFAULT;
+                    Instrucao.type = DEFAULT;
                     int checkB1, checkB2 = instr;
                     checkB1 = checkB1 >> 16 &31;
                     checkB2 = checkB2 >> 21 &31;
                     if(checkB1 == 00000 && checkB2 == 00000){
-                        instrucao->operation = B;
-                        instrucao->rd = rd &65535;
-                        instrucao->rs = FLAG_VAZIO;
-                        instrucao->rt = FLAG_VAZIO;
+                        Instrucao.operation = B;
+                        Instrucao.rd = rd &65535;
+                        Instrucao.rs = FLAG_VAZIO;
+                        Instrucao.rt = FLAG_VAZIO;
                     }else{
-                        instrucao->operation = BEQ;
-                        instrucao->rd = rd &65535;
-                        instrucao->rt = rt >> 16 &31;
-                        instrucao->rs = rs >> 21 &31;
+                        Instrucao.operation = BEQ;
+                        Instrucao.rd = rd &65535;
+                        Instrucao.rt = rt >> 16 &31;
+                        Instrucao.rs = rs >> 21 &31;
                     }
                 break;
                 case BEQL:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BEQL;
-                    instrucao->rd = rd &65535;
-                    instrucao->rt = rt >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = BEQL;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rt = rt >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
                 break;
                 case BGTZ:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BGTZ;
-                    instrucao->rd = rd &65535;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = BGTZ;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case BLEZ:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BLEZ;
-                    instrucao->rd = rd &65535;
-                    instrucao->rs = rs >> 21 &31;
-                    instrucao->rt = FLAG_VAZIO;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = BLEZ;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rs = rs >> 21 &31;
+                    Instrucao.rt = FLAG_VAZIO;
                 break;
                 case BNE:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = BNE;
-                    instrucao->rd = rd &65535;
-                    instrucao->rt = rt >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = BNE;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rt = rt >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
                 break;
                 case J:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = J;
-                    instrucao->rd = rd &67108863;
-                    instrucao->rt = FLAG_VAZIO;
-                    instrucao->rs = FLAG_VAZIO;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = J;
+                    Instrucao.rd = rd &67108863;
+                    Instrucao.rt = FLAG_VAZIO;
+                    Instrucao.rs = FLAG_VAZIO;
 
                 break;
                 case LUI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = LUI;
-                    instrucao->rd = rd >> 16 &31;
-                    instrucao->rt = rt &65535;
-                    instrucao->rs = FLAG_VAZIO;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = LUI;
+                    Instrucao.rd = rd >> 16 &31;
+                    Instrucao.rt = rt &65535;
+                    Instrucao.rs = FLAG_VAZIO;
                 break;
                 case ORI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = ORI;
-                    instrucao->rd = rd &65535;
-                    instrucao->rt = rt >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = ORI;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rt = rt >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
                 break;
                 case XORI:
-                    instrucao->type = DEFAULT;
-                    instrucao->operation = XORI;
-                    instrucao->rd = rd &65535;
-                    instrucao->rt = rt >> 16 &31;
-                    instrucao->rs = rs >> 21 &31;
+                    Instrucao.type = DEFAULT;
+                    Instrucao.operation = XORI;
+                    Instrucao.rd = rd &65535;
+                    Instrucao.rt = rt >> 16 &31;
+                    Instrucao.rs = rs >> 21 &31;
                 break;
             }
         break;
-        fila[pos] = *instrucao;
-        //add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO, instrucao->rs, instrucao->rt, instrucao->rd);
+        //add_info_barramento(Instrucao.operation, Instrucao.type, Instrucao.instr, TRUE, FLAG_VAZIO, Instrucao.rs, Instrucao.rt, Instrucao.rd);
+
     }
 }
 
-int fila_vazia (){
+/*int fila_vazia (){
     for(int i =0; i < 4; i++){
-        if(fila[i].type == FLAG_VAZIO && fila[i].rt == FLAG_VAZIO && fila[i].rs == FLAG_VAZIO && fila[i].rd == FLAG_VAZIO && fila[i].operation == FLAG_VAZIO){
+        if(fila[i].operation == FLAG_VAZIO){
             continue;
         }else{
             return FALSE;
         }
     }
     return TRUE;
-}
+}*/
 
-int retira_fila(){
+/*int retira_fila(){
     int verificacao = verifica_barramento(0);
     if(verificacao == TRUE){
-        add_info_barramento(fila[inicio].operation, fila[inicio].type, fila[inicio].instr, TRUE, FLAG_VAZIO, fila[inicio].rs, fila[inicio].rt, fila[inicio].rd);
-        fila[inicio].operation = FLAG_VAZIO;
-        fila[inicio].rd = FLAG_VAZIO;
-        fila[inicio].rs = FLAG_VAZIO;
-        fila[inicio].rt = FLAG_VAZIO;
-        fila[inicio].type = FLAG_VAZIO;
-        fila[inicio].instr = FLAG_VAZIO;
-        if(inicio < 3){
-            inicio++;
-        }else{
+        printf("\n\n entrou \n\n");
+        add_info_barramento(Instrucao.operation, Instrucao.type, Instrucao.instr, TRUE, FLAG_VAZIO, Instrucao.rs, Instrucao.rt, Instrucao.rd);
+        /*printf("\n\nFILA\n\n ");
+        printf("OPeration : %d\n", Instrucao.operation);
+        printf("type : %d\n", Instrucao.type);
+        printf("instr : %d\n", Instrucao.instr);
+        printf("rs : %d\n", Instrucao.rs);
+        printf("rd : %d\n", Instrucao.rd);
+        printf("rt : %d\n", Instrucao.rt);
+        printf("\n\n adicionou \n\n");
+        Instrucao.operation = FLAG_VAZIO;
+        Instrucao.rd = FLAG_VAZIO;
+        Instrucao.rs = FLAG_VAZIO;
+        Instrucao.rt = FLAG_VAZIO;
+        Instrucao.type = FLAG_VAZIO;
+        Instrucao.instr = FLAG_VAZIO;
+        inicio++;
+        if(inicio == 4){
+            printf("\n alo inicio = %d \n", inicio);
             inicio = 0;
         }
     }
 }
-
+*/
 void estagio_busca_pipeline(int PCMAX){
     printf("\n PC = %ld\n", PC.valor);
-    int verifica_fila = fila_vazia();
+    /*int verifica_fila = fila_vazia();
     int buscas_realizadas = 0;
     if(verifica_fila == TRUE){
-        while(buscas_realizadas < 4 && PC.valor < PCMAX){
-            IR.valor = read(PC.valor);
-            printf("\n Busca %i IR = %ld\n", buscas_realizadas, IR.valor);
-            decodificacao(buscas_realizadas);
-            switch(fila[buscas_realizadas].type){
+        while(buscas_realizadas < 4 && PC.valor < PCMAX){*/
+    IR.valor = read(PC.valor);
+    int buscas_realizadas = 1;
+    printf("\n Busca %i IR = %ld e PC %ld\n", buscas_realizadas, IR.valor, PC.valor);
+    decodificacao();
+    add_info_barramento(Instrucao.operation, Instrucao.type, Instrucao.instr, TRUE, FLAG_VAZIO, Instrucao.rs, Instrucao.rt, Instrucao.rd);
+    printf("\n%d\n", Instrucao.operation);
+            switch(Instrucao.type){
                 case DEFAULT:
-                    switch(fila[buscas_realizadas].operation){
+                    switch(Instrucao.operation){
                         case BEQ || B:
                         case BEQL:
                         case BGTZ:
                         case BLEZ:
                         case BNE:
                             OPC.valor = PC.valor;
-                            PC.valor = fila[buscas_realizadas].rd;
+                            PC.valor = Instrucao.rd;
                         break;
                         case J:
-                            PC.valor = fila[buscas_realizadas].rd;
+                            PC.valor = Instrucao.rd;
                         default:
                             PC.valor = ula_somador(PC.valor, 4);
                         break;
                     }
                 break;
                 case REGIMM:
-                    switch(fila[buscas_realizadas].operation){
+                    switch(Instrucao.operation){
                         case BGEZ:
                         case BLTZ:
                             OPC.valor = PC.valor;
-                            PC.valor = fila[buscas_realizadas].rd;
+                            PC.valor = Instrucao.rd;
                         break;
                         default:
                             PC.valor = ula_somador(PC.valor, 4);
@@ -593,18 +607,19 @@ void estagio_busca_pipeline(int PCMAX){
                 break;
             }
             buscas_realizadas++;
-        }
-        retira_fila();
-    }else{
-        retira_fila();
-    }
 }
 
 void processador(int instrcounter){
     int PCMAX = instrcounter *4;
     int inicio =0;
     int fim = 1;
-    for(int i = 0; i<42; i++){
+    write_back();
+    execute();
+    read_operands();
+    issue();
+    estagio_busca_pipeline(PCMAX);
+    //while(verifica_all_barramentos()==FALSE && verifica_all_uf()==FALSE){
+    for(int i = 0; i <100 ; i++){
         write_back();
         execute();
         read_operands();

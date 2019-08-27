@@ -1,6 +1,6 @@
-addi $t0, $0, 10
-addi $t1, $0, 10
-beq $t0, $t1, skip
-addi $t3, $0, 3
-addi $t4, $0, 4
-skip
+ADDI $t0, $0, 10
+ADDI $t1, $0, 10
+BEQ $t0, $t1, skip
+ADDI $t3, $0, 3
+ADDI $t4, $0, 4
+SKIP:

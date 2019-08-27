@@ -27,10 +27,10 @@
 #define REG_HI 32
 #define REG_LO 33
 
-#define SPECIAL 000000
-#define SPECIAL2 011100
-#define REGIMM 000001
-#define DEFAULT 111111
+#define SPECIAL 0
+#define SPECIAL2 28
+#define REGIMM 1
+#define DEFAULT 63
 
 #define QTD_BARRAMENTOS 4
 #define TRUE 1000
@@ -88,6 +88,6 @@ typedef struct instruction{
     int operation;
 }instruction;
 
-instruction fila[4];
+instruction Instrucao;
 
 #endif

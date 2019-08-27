@@ -219,8 +219,8 @@ void split_op(int numOp, char *palavra, int i, char *bin, int sizeOp3, int branc
             else {
                 itobin(op3, rt, sizeOp3);
                 if (sizeOp3 == 16) {
-                    strcat(bin, rd);
                     strcat(bin, rs);
+                    strcat(bin, rd);
                     strcat(bin, rt);
                     printf("Op3: %s\n", op3);
                 } else {
@@ -858,7 +858,7 @@ void init_search(char arquivo_binario[]) {
     }
 }
 
-void inicia_fila (){
+/*void inicia_fila (){
     for(int i =0; i <4; i++){
         fila[i].operation = FLAG_VAZIO;
         fila[i].rd = FLAG_VAZIO;
@@ -868,28 +868,27 @@ void inicia_fila (){
         fila[i].instr = FLAG_VAZIO;
     }
 }
-
+*/
 int main () {
     inicializar_registradores();
     init_barramento();
     init_hash();
-    inicia(42);
+    inicia(10);
     init_unidade_func();
-    inicia_fila();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
     //tradutor(arquivo_binario);
     //find_label("aritm_1");
-    find_label("final_1");
+    find_label("teste8.asm");
     // Teste 1) Tradução de todas as operações sem ser os branchs.
     //init_search("aritm_1");
     // Teste 2) Tradução de todas as operações de branch.
-    init_search("final_1");
+    init_search("teste8.asm");
     // Teste 3) Tradução de todas operações.
     //init_search("all_1");
     alimenta_memoria("arquivo_saida");
-    print();
+    //print();
     processador(instrcounter);
     return 0;
 }

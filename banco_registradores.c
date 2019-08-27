@@ -87,7 +87,7 @@ void reg_print(int reg){
 void reg_banco_print(){
   int i;
   printf("\n\tBANCO DE REGISTRADORES\n*--------------------------------------------------*\n*\tReg\t|\tQi\t|\tVALOR\t   *\n*--------------------------------------------------*\n");
-  for(i = 0; i<(sizeof(banco_registradores)/sizeof(Registrador)); i++)
+  for(i = 0; i<34; i++)
     printf("* [%2d]\t%s\t|\t%2d\t|\t%10ld *\n", i, reg_get_name(i), banco_registradores[i].Qi, banco_registradores[i].valor);
   printf("*--------------------------------------------------*\n");
 }
