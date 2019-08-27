@@ -856,10 +856,10 @@ void init_search(char arquivo_binario[]) {
 
 
 int main () {
-    inicializar_registradores();
+    //inicializar_registradores();
     init_barramento();
     init_hash();
-    inicia(12);
+    inicia(42);
     init_unidade_func();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);

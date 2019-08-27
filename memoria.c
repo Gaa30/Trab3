@@ -9,9 +9,9 @@ Memoria m;
 
 void inicia(int size){
     m.size = size;
-    m.vet = malloc(sizeof(size*m.size));
+    m.vet = malloc(sizeof(int)*size);
 
-    for(int i=0; i<size; i = i+TAM_PALAVRA)
+    for(int i=0; i<size*TAM_PALAVRA; i = i+TAM_PALAVRA)
         m.vet[i] = -1;
 }
 
@@ -32,9 +32,10 @@ Palavra read(int endereco){
 
 void print(){
     int i= 0;
-    for(i=0; i<m.size; i = i+TAM_PALAVRA)
+    for(i=0; i<m.size*TAM_PALAVRA; i = i+TAM_PALAVRA){
         printf("%13d\n", read(i));
-
+        printf("%i", i);
+    }
 }
 
 void alimenta_memoria(char* nomearquivoentrada){
@@ -42,6 +43,7 @@ void alimenta_memoria(char* nomearquivoentrada){
     char aux[33];
     char* eptr;
     int a = 0;
+    int count = 0;
     int aux2;
     memset(aux, '\0', 33);
     while(fgets(aux, 33, arq) != NULL) {
@@ -49,8 +51,13 @@ void alimenta_memoria(char* nomearquivoentrada){
         printf("\n%s\n", aux);
         aux2 = (int)strtol(aux, &eptr, 2);
         write(aux2, a);
-        a += 4;
         printf("%d\n", a);
+        count ++;
+        if(count % 2 != 0){
+            a += TAM_PALAVRA;
+        }else{
+            a = a;
+        }
     }
     fclose(arq);
 }
