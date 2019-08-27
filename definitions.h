@@ -80,11 +80,14 @@
 #define XORI 14
 
 typedef struct instruction{
+    int instr;
     int rs;
     int rt;
     int rd;
     int type;
     int operation;
 }instruction;
+
+instruction fila[4];
 
 #endif

@@ -1,5 +1,7 @@
 #include "processador.h"
 
+int inicio = 0;
+
 int getTipo(int instr){
     int isSpecial = instr >> 26;
     if (isSpecial == SPECIAL){
@@ -19,7 +21,7 @@ int getTipo(int instr){
     }
 }
 
-int predecode(int instr){
+/*int predecode(int instr){
     int branch = 0;
     int rt = instr;
     int rs = instr;
@@ -45,6 +47,7 @@ int predecode(int instr){
                     return branch;
                 break;
                 case JR:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = SPECIAL;
                     operation = JR;
@@ -124,6 +127,7 @@ int predecode(int instr){
             operation = instr >> 16 &31;
             switch(operation){
                 case BGEZ:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = REGIMM;
                     operation = BGEZ;
@@ -133,6 +137,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case BLTZ:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = REGIMM;
                     operation = BLTZ;
@@ -155,6 +160,7 @@ int predecode(int instr){
                     return branch;
                 break;
                 case B || BEQ:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     int checkB1, checkB2 = instr;
@@ -174,6 +180,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case BEQL:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     operation = BEQL;
@@ -183,6 +190,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case BGTZ:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     operation = BGTZ;
@@ -192,6 +200,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case BLEZ:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     operation = BLEZ;
@@ -201,6 +210,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case BNE:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     operation = BNE;
@@ -210,6 +220,7 @@ int predecode(int instr){
                     PC.valor = rd;
                 break;
                 case J:
+                    OPC.valor = PC.valor;
                     branch = 1;
                     type = DEFAULT;
                     operation = J;
@@ -233,20 +244,10 @@ int predecode(int instr){
             }
         break;
     }
-}
-
-void estagio_busca_pipeline(){
-    printf("\n PC = %ld\n", PC.valor);
-    IR.valor = read(PC.valor);
-    printf("\n IR = %ld\n", IR.valor);    
-    int is_branch = predecode(IR.valor);
-    if(!is_branch){
-        PC.valor = ula_somador(PC.valor, 4);
-    }
-}
+}*/
 
 //decodificacao do codigo da instrucao no IR, e coloca na fila
-void decodificacao(){
+void decodificacao(int pos){
     if(IR.valor == FLAG_VAZIO) return;
     int instr = IR.valor;
     int rt = instr;
@@ -258,6 +259,7 @@ void decodificacao(){
     printf("\nTIPO %d\n", type);
     int opcode = 0;
     instruction * instrucao = (instruction *)malloc(sizeof(instruction));
+    instrucao->instr = instr;
     switch(type){
         case SPECIAL:
             opcode = instr &63;
@@ -514,20 +516,100 @@ void decodificacao(){
                 break;
             }
         break;
-        add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO, instrucao->rs, instrucao->rt, instrucao->rd);
+        fila[pos] = *instrucao;
+        //add_info_barramento(instrucao->operation, instrucao->type, instr, TRUE, FLAG_VAZIO, instrucao->rs, instrucao->rt, instrucao->rd);
+    }
+}
+
+int fila_vazia (){
+    for(int i =0; i < 4; i++){
+        if(fila[i].type == FLAG_VAZIO && fila[i].rt == FLAG_VAZIO && fila[i].rs == FLAG_VAZIO && fila[i].rd == FLAG_VAZIO && fila[i].operation == FLAG_VAZIO){
+            continue;
+        }else{
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+int retira_fila(){
+    int verificacao = verifica_barramento(0);
+    if(verificacao == TRUE){
+        add_info_barramento(fila[inicio].operation, fila[inicio].type, fila[inicio].instr, TRUE, FLAG_VAZIO, fila[inicio].rs, fila[inicio].rt, fila[inicio].rd);
+        fila[inicio].operation = FLAG_VAZIO;
+        fila[inicio].rd = FLAG_VAZIO;
+        fila[inicio].rs = FLAG_VAZIO;
+        fila[inicio].rt = FLAG_VAZIO;
+        fila[inicio].type = FLAG_VAZIO;
+        fila[inicio].instr = FLAG_VAZIO;
+        if(inicio < 3){
+            inicio++;
+        }else{
+            inicio = 0;
+        }
+    }
+}
+
+void estagio_busca_pipeline(int PCMAX){
+    printf("\n PC = %ld\n", PC.valor);
+    int verifica_fila = fila_vazia();
+    int buscas_realizadas = 0;
+    if(verifica_fila == TRUE){
+        while(buscas_realizadas < 4 && PC.valor < PCMAX){
+            IR.valor = read(PC.valor);
+            printf("\n Busca %i IR = %ld\n", buscas_realizadas, IR.valor);
+            decodificacao(buscas_realizadas);
+            switch(fila[buscas_realizadas].type){
+                case DEFAULT:
+                    switch(fila[buscas_realizadas].operation){
+                        case BEQ || B:
+                        case BEQL:
+                        case BGTZ:
+                        case BLEZ:
+                        case BNE:
+                            OPC.valor = PC.valor;
+                            PC.valor = fila[buscas_realizadas].rd;
+                        break;
+                        case J:
+                            PC.valor = fila[buscas_realizadas].rd;
+                        default:
+                            PC.valor = ula_somador(PC.valor, 4);
+                        break;
+                    }
+                break;
+                case REGIMM:
+                    switch(fila[buscas_realizadas].operation){
+                        case BGEZ:
+                        case BLTZ:
+                            OPC.valor = PC.valor;
+                            PC.valor = fila[buscas_realizadas].rd;
+                        break;
+                        default:
+                            PC.valor = ula_somador(PC.valor, 4);
+                        break;
+                    }
+                default:
+                    PC.valor = ula_somador(PC.valor, 4);
+                break;
+            }
+            buscas_realizadas++;
+        }
+        retira_fila();
+    }else{
+        retira_fila();
     }
 }
 
 void processador(int instrcounter){
     int PCMAX = instrcounter *4;
-    int fila[4];
+    int inicio =0;
+    int fim = 1;
     for(int i = 0; i<42; i++){
         write_back();
         execute();
         read_operands();
         issue();
-        decodificacao();
-        estagio_busca_pipeline();
+        estagio_busca_pipeline(PCMAX);
     }
 }
 

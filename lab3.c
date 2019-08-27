@@ -4,6 +4,7 @@
 #include <string.h>
 #include "hash.h"
 #include "lab3.h"
+#include "definitions.h"
 
 int zero = 0;
 int at = 1;
@@ -382,7 +383,7 @@ void tradutor(char *palavra) {
         int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, 5, 1);
+        split_op(numOp, palavra, i, bin, 16, 1);
         printf ("Binário: %s\n", bin);
         printf ("Tamanho: %li\n\n", strlen(bin));
         fprintf(arq2, "%s\n", bin);
@@ -394,7 +395,7 @@ void tradutor(char *palavra) {
         int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, 5, 1);
+        split_op(numOp, palavra, i, bin, 16, 1);
         printf ("Binário: %s\n", bin);
         printf ("Tamanho: %li\n\n", strlen(bin));
         fprintf(arq2, "%s\n", bin);
@@ -494,7 +495,7 @@ void tradutor(char *palavra) {
         int numOp = 3;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, 5, 1);
+        split_op(numOp, palavra, i, bin, 16, 1);
         printf ("Binário: %s\n", bin);
         printf ("Tamanho: %li\n\n", strlen(bin));
         fprintf(arq2, "%s\n", bin);
@@ -592,8 +593,8 @@ void tradutor(char *palavra) {
         int numOp = 1;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "0000000000");
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "010010");
         printf ("Binário: %s\n", bin);
@@ -829,12 +830,13 @@ void find_label(char arquivo_binario[]) {
 
 void init_search(char arquivo_binario[]) {
     FILE *arq;
-    //FILE *arq2;
+    FILE *arq2;
     char aux[24];
     int TAM_AUX;
     memset(aux, '\0', 24);
     arq = fopen(arquivo_binario, "r");
-    //arq2 = fopen("arquivo_saida", "w+");
+    arq2 = fopen("arquivo_saida", "w");
+    fclose(arq2);
     if (arq != NULL) {
         fseek(arq, 0, SEEK_SET);
         while(fgets(aux, 24, arq) != NULL) {
@@ -856,7 +858,16 @@ void init_search(char arquivo_binario[]) {
     }
 }
 
-
+void inicia_fila (){
+    for(int i =0; i <4; i++){
+        fila[i].operation = FLAG_VAZIO;
+        fila[i].rd = FLAG_VAZIO;
+        fila[i].rs = FLAG_VAZIO;
+        fila[i].rt = FLAG_VAZIO;
+        fila[i].type = FLAG_VAZIO;
+        fila[i].instr = FLAG_VAZIO;
+    }
+}
 
 int main () {
     inicializar_registradores();
@@ -864,6 +875,7 @@ int main () {
     init_hash();
     inicia(42);
     init_unidade_func();
+    inicia_fila();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
