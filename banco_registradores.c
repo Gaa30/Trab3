@@ -77,18 +77,17 @@ char * reg_get_name(int registrador){
         case 33: return "lo";
     }
 }
-/*
+
 void reg_print(int reg){
   printf("\n*--------------------------------------------------*\n*\tReg\t|\tQi\t|\tVALOR\t   *\n*--------------------------------------------------*\n");
-  printf("* [%2d]\t%s\t|\t%2d\t|\t%10d *\n",reg, get_nome_reg(reg), banco_Registradores[reg].Qi, banco_Registradores[reg].valor);
+  printf("* [%2d]\t%s\t|\t%2d\t|\t%10ld *\n",reg, reg_get_name(reg), banco_registradores[reg].Qi, banco_registradores[reg].valor);
   printf("*--------------------------------------------------*\n");
 }
 
 void reg_banco_print(){
   int i;
   printf("\n\tBANCO DE REGISTRADORES\n*--------------------------------------------------*\n*\tReg\t|\tQi\t|\tVALOR\t   *\n*--------------------------------------------------*\n");
-  for(i = 0; i<(sizeof(banco_Registradores)/sizeof(Registrador)); i++)
-    printf("* [%2d]\t%s\t|\t%2d\t|\t%10d *\n", i, get_nome_reg(i), banco_Registradores[i].Qi, banco_Registradores[i].valor);
+  for(i = 0; i<(sizeof(banco_registradores)/sizeof(Registrador)); i++)
+    printf("* [%2d]\t%s\t|\t%2d\t|\t%10ld *\n", i, reg_get_name(i), banco_registradores[i].Qi, banco_registradores[i].valor);
   printf("*--------------------------------------------------*\n");
 }
-*/

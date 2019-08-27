@@ -611,6 +611,8 @@ void processador(int instrcounter){
         issue();
         estagio_busca_pipeline(PCMAX);
     }
+    printf("/n/n BANCO_REGISTRADORES /n/n");
+    reg_banco_print();
 }
 
 

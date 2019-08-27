@@ -35,6 +35,6 @@ int issue();
 int read_operands();
 void execute();
 void write_back();
-void verifica_all_uf();
+int verifica_all_uf();
 
 #endif 

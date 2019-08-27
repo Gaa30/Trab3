@@ -51,7 +51,7 @@ void remove_barramento(int pos){
     BUS[pos].rd == FLAG_VAZIO;
 }
 
-void verifica_all_barramentos(){
+int verifica_all_barramentos(){
     for(int i = 0; i<4; i++){
         if(verifica_barramento(i)==TRUE){
             continue;

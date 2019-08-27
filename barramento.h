@@ -23,5 +23,6 @@ barramento* BUS;
 void add_info_barramento(int opcode, int type, int instrucao, int valida, int unidade_func, int rs, int rt, int rd);
 int verifica_barramento(int pos);
 void remove_barramento(int pos);
+int verifica_all_barramentos();
 
 #endif

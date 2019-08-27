@@ -1296,7 +1296,7 @@ void write_back(unidade_func* unidades){
     Busy[FU] ← No; */
 }
 
-void verifica_all_uf(){
+int verifica_all_uf(){
     for(int i =0; i < TAM_UNIDADE_FUNC; i++){
         if(unidades_funcionais[i].busy == FLAG_READY && unidades_funcionais[i].instr == FLAG_VAZIO && unidades_funcionais[i].operacao == FLAG_VAZIO){
             continue;
