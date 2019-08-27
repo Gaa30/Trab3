@@ -1070,6 +1070,7 @@ int read_operands(){
 }
 
 void execute(){
+    int verifica;
     int i;
     int lui;
     for(i = INIT_POS; i < TAM_UNIDADE_FUNC; i++){
@@ -1192,7 +1193,7 @@ void execute(){
                                     break;
                                     case B || BEQ:
                                         if (unidades_funcionais[i].instr == BEQ){
-                                            int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                            verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                             if(verifica == 1){
                                                 unidades_funcionais[i].instr_valida = TRUE;
                                                 PC.valor = PC.valor;
@@ -1205,7 +1206,7 @@ void execute(){
                                         }
                                     break;
                                     case BEQL:
-                                        int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                         if(verifica == 1){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
@@ -1233,7 +1234,7 @@ void execute(){
                                         }
                                     break;
                                     case BNE:
-                                        int verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
+                                        verifica = ula_div(banco_registradores[unidades_funcionais[i].source_register[0]].valor, banco_registradores[unidades_funcionais[i].source_register[1]].valor);
                                         if(verifica != 1){
                                             unidades_funcionais[i].instr_valida = TRUE;
                                             PC.valor = PC.valor;
