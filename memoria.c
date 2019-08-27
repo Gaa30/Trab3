@@ -36,6 +36,7 @@ void print(){
         printf("%13d\n", read(i));
         printf("%i", i);
     }
+    printf("\n END PRINT \n");
 }
 
 void alimenta_memoria(char* nomearquivoentrada){

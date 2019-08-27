@@ -294,6 +294,8 @@ void split_op(int numOp, char *palavra, int i, char *bin, int sizeOp3, int branc
         }
 }
 
+int instrcounter = 0;
+
 void tradutor(char *palavra) {
     FILE *arq2;
     char ch;
@@ -575,8 +577,8 @@ void tradutor(char *palavra) {
         int numOp = 1;
         strcpy(bin, instruBin);
         bin[6] = '\0';
-        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "0000000000");
+        split_op(numOp, palavra, i, bin, 5, 0);
         strcat(bin, "00000");
         strcat(bin, "010000");
         printf ("Binário: %s\n", bin);
@@ -686,7 +688,7 @@ void tradutor(char *palavra) {
     }
     else if (!strcmp(aux, "MULT")) {
         arq2 = fopen("arquivo_saida", "a");
-        char instruBin[6] = "011100";
+        char instruBin[6] = "000000";
         int numOp = 2;
         strcpy(bin, instruBin);
         bin[6] = '\0';
@@ -797,6 +799,7 @@ void tradutor(char *palavra) {
     else {
         printf("Instrução não implementada.");
     }
+    instrcounter++;
 }
 
 void find_label(char arquivo_binario[]) {
@@ -856,7 +859,7 @@ void init_search(char arquivo_binario[]) {
 
 
 int main () {
-    //inicializar_registradores();
+    inicializar_registradores();
     init_barramento();
     init_hash();
     inicia(42);
@@ -875,5 +878,6 @@ int main () {
     //init_search("all_1");
     alimenta_memoria("arquivo_saida");
     print();
+    processador(instrcounter);
     return 0;
 }

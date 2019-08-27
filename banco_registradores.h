@@ -13,7 +13,7 @@ typedef struct{
 Registrador banco_registradores[34]; //32 por padrão + LO E HI
 Registrador buffer[34];
 
-Registrador PC, IR, OPC; //Program Counter, Instruction Register e Next program Counter
+Registrador PC, IR, OPC; //Program Counter, Instruction Register e Old program Counter
 
 void inicializar_registradores();
 

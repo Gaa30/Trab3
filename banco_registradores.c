@@ -3,10 +3,12 @@
 void inicializar_registradores(){
     banco_registradores[0].valor = 0; //registrador zero possui valor zero
     int i;
-    for(i=0; i < sizeof(banco_registradores); i++){
+    for(i=0; i < 34; i++){
         banco_registradores[i].valor = 0;
         banco_registradores[i].Qi = FLAG_READY;
     }
+    PC.valor = 0;
+    IR.valor = 0;
 }
 
 int reg_write(int w, int registrador){

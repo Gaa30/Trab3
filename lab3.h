@@ -6,6 +6,7 @@
 #include "memoria.h"
 #include "barramento.h"
 #include "unidade_func.h"
+#include "processador.h"
 
 char* decimal_to_binary_16bits(int n){
     int c, d, count;
