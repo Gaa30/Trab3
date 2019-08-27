@@ -290,7 +290,12 @@ void decodificacao(){
 }
 
 void processador(){
-    
+    write_back();
+    execute();
+    read_operands();
+    issue();
+    decodificacao();
+    estagio_busca_pipeline();
 }
 
 

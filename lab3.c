@@ -856,11 +856,11 @@ void init_search(char arquivo_binario[]) {
 
 
 int main () {
-    //inicializar_registradores();
-    //init_barramento();
+    inicializar_registradores();
+    init_barramento();
     init_hash();
-    //inicia(12);
-    //init_unidade_func();
+    inicia(12);
+    init_unidade_func();
     //char arquivo_binario[24] = "ADDI $t1, $t1, 3";
     //tradutor(arquivo_binario);
     //printf("%s", arquivo_binario);
@@ -873,8 +873,7 @@ int main () {
     init_search("final_1");
     // Teste 3) Tradução de todas operações.
     //init_search("all_1");
-
-    //alimenta_memoria("arquivo_saida");
-    //print();
+    alimenta_memoria("arquivo_saida");
+    print();
     return 0;
 }
